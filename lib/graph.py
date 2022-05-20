@@ -2,7 +2,7 @@ from lib.node import Node
 
 class Graph:
     def __init__(self) -> None:
-        self.graph = []
+        self.graph : list[Node]= []
 
     def addNode(self, node: Node):
         self.graph.append(node)
@@ -13,7 +13,7 @@ class Graph:
                 return True
         return False
 
-    def findNode(self, inNode: Node) -> Node:
+    def findNode(self, inNode: Node) -> Node | None:
         if(self.isNodeExist(inNode)):
             for node in self.graph:
                 if(node.getId() == inNode.getId()):
@@ -34,4 +34,3 @@ class Graph:
         
         node1.addConnection(node2)
 
-        pass

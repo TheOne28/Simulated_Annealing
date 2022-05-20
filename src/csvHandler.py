@@ -1,4 +1,3 @@
-from statistics import mode
 from lib.node import Node
 from helperFunction import validateResources, validateWaktu
 
@@ -6,12 +5,11 @@ import csv
 from pathlib import Path
 
 
-def readFile(filename: str) -> list | None:
+def readFile(filename: str, config: dict) -> list | None:
     
     filePath = str(Path(Path(__file__).parent).parent) + "/data/" + filename
     csvFile = open(filePath, 'r')
     csvData = None
-
 
     try:
         csvData = csv.reader(csvFile)

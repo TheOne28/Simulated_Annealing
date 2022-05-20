@@ -2,5 +2,7 @@
 File berisi data config yang digunakan
 '''
 
-RESOURCES = ["R", "H", "HRC"]
-CT = 20
+from data.input.dataex import dataSource as d1
+
+fileCSV = "initialSolutionEx"
+dataInput = d1
