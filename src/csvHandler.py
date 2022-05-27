@@ -1,5 +1,5 @@
 from lib.node import Node
-from helperFunction import validateResources, validateWaktu
+from helperFunction import validateResources, validateWaktu, validateStation, validateTask
 
 import csv
 from pathlib import Path
@@ -31,18 +31,21 @@ def readFile(filename: str, config: dict) -> list | None:
             resource = data[3]
             waktu = data[4]
 
-            if(not validateResources(resource)):
-                print("Masukan resource tidak valid pada element dengan ID {} dan Model {}", id, model)
-                return None
+            if(not validateResources(resource, config['resources'])):
+                raise("Masukan resource tidak valid pada element dengan ID {} dan Model {}", id, model)
 
-            if(not validateWaktu(waktu)):
-                print("Masukan waktu tidak valid pada element dengan ID {} dan Model {}", id, model)
-                return None
+            if(not validateWaktu(waktu, config['ct'])):
+                raise("Masukan waktu tidak valid pada element dengan ID {} dan Model {}", id, model)
+
+            if(not validateTask(id, config['task'])):
+                raise("Masukan task tidak valid dengan ID {}", id)
+
+            if(not validateStation(station, config['stations'])):
+                raise("Masukan station tidak valid pada element dengan ID {}", id)
 
             if(id in dictNode.keys):
                 if(resource not in dictNode[id].getModel().values):
-                    print("Masukan model tidak valid pada element dengan ID {}".format(id))
-                    return None
+                    raise("Masukan model tidak valid pada element dengan ID {}".format(id))
                 
                 dictNode[id].addModel(model, [resource, waktu])
             else:

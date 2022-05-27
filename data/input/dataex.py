@@ -19,7 +19,7 @@ CI = [500, 3500]
 CO = [1500, 300]
 
 CT = 20
-RESOURCES = {"R" : 1, "H" : 2, "HRC": 3}
+RESOURCES = {"R" : 1, "H" : 2, "HRC": 3}   
 
 '''
 Dictionary untuk eksport data input

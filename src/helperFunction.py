@@ -15,3 +15,6 @@ def validateStation(stat: int, station: tuple):
 
 def validateTask(task: int, alltask: tuple):
     return task in alltask
+
+def getInput():
+    pass
