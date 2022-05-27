@@ -1,11 +1,12 @@
 
 
 class Node:
-    def __init__(self, id:int, stasiun: int, model: dict ) -> None:
+    def __init__(self, id:int, stasiun: int, model: dict, resource: int ) -> None:
         self.id = id
         self.connection = []
         self.stasiun = stasiun
         self.model = model
+        self.resource = resource
     
     def getId(self) -> int:
         return self.id
@@ -15,6 +16,9 @@ class Node:
 
     def getModel(self) -> dict:
         return self.model
+
+    def getResource(self) -> int:
+        return self.resource
 
     def addModel(self, key: str, value: list):
         self.model[key] = value

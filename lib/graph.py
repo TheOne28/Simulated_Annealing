@@ -4,6 +4,9 @@ class Graph:
     def __init__(self) -> None:
         self.graph : list[Node]= []
 
+    def getGraph(self) -> list[Node]:
+        return self.graph
+
     def addNode(self, node: Node):
         self.graph.append(node)
     

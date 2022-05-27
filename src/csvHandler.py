@@ -33,6 +33,8 @@ def readFile(filename: str, config: dict) -> list | None:
 
             if(not validateResources(resource, config['resources'])):
                 raise("Masukan resource tidak valid pada element dengan ID {} dan Model {}", id, model)
+            
+            resource = config['resources'][resource]
 
             if(not validateWaktu(waktu, config['ct'])):
                 raise("Masukan waktu tidak valid pada element dengan ID {} dan Model {}", id, model)
@@ -44,13 +46,14 @@ def readFile(filename: str, config: dict) -> list | None:
                 raise("Masukan station tidak valid pada element dengan ID {}", id)
 
             if(id in dictNode.keys):
-                if(resource not in dictNode[id].getModel().values):
+                res = dictNode[id].getResource()
+                if(resource != res):
                     raise("Masukan model tidak valid pada element dengan ID {}".format(id))
                 
-                dictNode[id].addModel(model, [resource, waktu])
+                dictNode[id].addModel(model,  waktu)
             else:
-                newModel = {model: [resource, waktu]}
-                newNode = Node(id, station, newModel)
+                newModel = {model: waktu}
+                newNode = Node(id, station, newModel, resource)
                 dictNode[id] = newNode
     
     return dictNode.values
