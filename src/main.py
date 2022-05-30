@@ -18,6 +18,8 @@ def main():
     sa = simulatedAnnealing(graph, dataInput)
     sa.setSisa()
     sa.printAll()
+
+    print("Obejctive Function: ", sa.objectiveFunction())
     
     
 

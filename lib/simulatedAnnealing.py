@@ -143,32 +143,44 @@ class simulatedAnnealing:
 
         for node in self.allNode:
             id = node.getId()
+            stasiun = node.getStasiun()
             resource = node.getResource()
 
-            if("{}{}".format(id, resource) not in done):
+            if("{}{}".format(stasiun, resource) not in done):
                 if(resource == 1):
                     ro += 1
-                    done.append("{}1".format(id))
+                    done.append("{}1".format(stasiun))
                 elif(resource == 2):
                     alpha += 1
-                    done.append("{}2".format(id))
-                elif(resource == 3):
+                    done.append("{}2".format(stasiun))
+                elif(resource == 3 and "{}1".format(stasiun) not in done and "{}2".format(stasiun) not in done):
                     ro += 1
                     alpha += 1
-                    done.append("{}1".format(id))
-                    done.append("{}2".format(id))
+                    done.append("{}1".format(stasiun))
+                    done.append("{}2".format(stasiun))
             
             if(resource == 1):
-                b2 += self.saving[id][0]
+                b2 += self.data['saving'][id][0]
             elif(resource == 3):
-                b3 += self.saving[id][1]
+                b3 += self.data['saving'][id][1]
         
         return alpha, ro, b2, b3
 
+    def findTau(self) -> int:
+        minimum = self.data['ct']
 
+        for node in self.allNode:
+            minimum = min(minimum, node.getWaktuSisa('X'), node.getWaktuSisa('Y'))
+        
+        return self.data['ct'] - minimum
 
     def objectiveFunction(self):
         alpha, ro, b2, b3 = self.countRes()
+
+        # print("alpha ", alpha)
+        # print("ro ", ro)
+        # print("b2 ", b2)
+        # print("b3 ", b3)
 
         ci = self.data['ci']
         co = self.data['co']
