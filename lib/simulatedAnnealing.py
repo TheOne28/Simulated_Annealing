@@ -10,6 +10,8 @@ class simulatedAnnealing:
         self.allNode = self.graph.getGraph()
         self.data = data
 
+        self.setSisa()
+
     def getByStasiun(self, allNode) -> dict:
         stas = {}
 
@@ -125,7 +127,17 @@ class simulatedAnnealing:
                         allConnect.append(each)
             
             mapping.clear()
-            
+    
+    def solve(self, mode):
+        if(mode == 1):
+            self.loopOne()
+        elif(mode == 2):
+            self.loopTwo()
+        elif(mode == 3):
+            self.loopThree()
+        else:
+            raise("Terdapat kesalahan mode")
+
     def loopOne(self):
         
         pass

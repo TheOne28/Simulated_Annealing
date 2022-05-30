@@ -1,7 +1,8 @@
-from config import fileCSV, dataInput
+from config import fileCSV, dataInput, 
 from lib.graph import Graph
 from lib.simulatedAnnealing import simulatedAnnealing
 from csvHandler import readFile
+from helperFunction import getInput
 
 def createGraph(data: dict) -> Graph:
     graph = Graph()
@@ -16,11 +17,21 @@ def main():
     data = readFile(fileCSV, dataInput)
     graph = createGraph(data)
     sa = simulatedAnnealing(graph, dataInput)
-    sa.setSisa()
+    
+    before = sa.objectiveFunction()
+
     sa.printAll()
 
-    print("Obejctive Function: ", sa.objectiveFunction())
-    
+    for i in range(1, 4):
+        doing = getInput(i)
+        
+        if(doing):
+            sa.solve(i)
+
+    after = sa.objectiveFunction()
+
+    print("Objective Function Before Inner Loop: ", before)
+    print("Objective Function After Inner Loop: ", after)
     
 
 if(__name__ == "__main__"):
