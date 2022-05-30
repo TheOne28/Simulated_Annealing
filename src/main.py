@@ -3,20 +3,20 @@ from lib.graph import Graph
 from lib.simulatedAnnealing import simulatedAnnealing
 from csvHandler import readFile
 
-def createGraph(data: list) -> Graph:
-    graph = Graph
+def createGraph(data: dict) -> Graph:
+    graph = Graph()
 
     for pair in dataInput['precedences']:
-        graph.addEdge(data[pair[0], data[pair[1]]])
+
+        graph.addEdge(data[pair[0]], data[pair[1]])
 
     return graph
 
 def main():
     data = readFile(fileCSV, dataInput)
-
     graph = createGraph(data)
-    sa = simulatedAnnealing(graph)
-    
+    sa = simulatedAnnealing(graph, dataInput['ci'], dataInput['co'], dataInput['ct'], dataInput['d'], dataInput['saving'], dataInput['timetaken'])
+    sa.setSisa()
     
     
 
