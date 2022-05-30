@@ -132,14 +132,14 @@ class simulatedAnnealing:
             
             mapping.clear()
     
-    def tukarTugas(self):
-        r2 = choice(list(self.data['task']))
-        nodeR2 : Node = None
 
-        for node in self.allNode:
-            if(node.getId() == r2):
-                NodeR2 = node
-                break
+    def tukarTugas(self, exclude : list) -> bool:
+        r2 = choice(list(self.data['task']))
+
+        while(r2 in exclude):
+            r2 = choice(list(self.data['task']))
+
+        nodeR2 : Node = self.graph.findNode(r2)
         
         for node in self.allNode:
             if(node.getId() == r2):
@@ -153,7 +153,29 @@ class simulatedAnnealing:
                     print("Menukar tugas {} dan {}".format(r2, node.getId()))
 
                     self.setSisa()
-                    return
+                    return 0
+        return r2
+
+    def tukarResource(self, exclude) -> bool:
+        r4 = choice(list(self.data['task']))
+        
+        while(r4 in exclude):
+            r4 = choice(list(self.data['task']))
+        
+        s1 = choice(list(self.data['resources'].keys()))
+
+        node4 : Node = self.graph.findNode(r4)
+
+        if(node4.getResource() == s1):
+            return False
+        else:
+            node4.setResource(s1)
+            print("Menukar resource tugas {} dengan {}".format(r4, s1))
+
+            self.setSisa()
+
+            return True
+
 
 
     def solve(self, mode):
@@ -174,13 +196,47 @@ class simulatedAnnealing:
 
             while(i < self.param['I']):
                 a = 0
-                self.tukarTugas()
+                exclude = []
+                while(a < self.param['A']):
+                    success = self.tukarTugas(exclude)
+                    
+                    """
+                        success
+                            0 -> Penukaran berhasil
+                            r2 -> gagal karena Tugas r2 tidak bisa ditukar
+                    """
+                    if(success == 0):
+                        break
+                    else:
+                        exclude.append(success)
+                        a += 1
                 i += 1
         else:
             print("Penukaran tugas tidak dilakukan karena r1 > p1")
     
     def loopTwo(self):
-        pass
+        r3 = random()
+
+        if(r3 < self.param['P'][1]):
+            i = 0
+            
+            while(i < self.param['I']):
+                b = 0
+                exclude = []
+
+                while(b < self.param['B']):
+                    success = self.tukarResource(exclude)
+                    """
+                        success 
+                            True -> Penukaran berhasil
+                            False -> Penukaran Gagal karena resource
+                    """
+                    if(success):
+                        break
+
+                i += 1
+        else:
+            print("Penukaran resource tidak dilakukan karena r3 > p2")
 
     def loopThree(self):
         pass

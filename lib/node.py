@@ -18,6 +18,9 @@ class Node:
     def setStasiun(self, stasiun : int):
         self.stasiun = stasiun
 
+    def setResource(self, resource: int):
+        self.resource = resource
+
     def getConnection(self) -> list:
         return self.connection
 

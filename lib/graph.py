@@ -10,29 +10,29 @@ class Graph:
     def addNode(self, node: Node):
         self.graph.append(node)
     
-    def isNodeExist(self, inNode: Node) -> bool:
+    def isNodeExist(self, id: int) -> bool:
         for node in self.graph:
-            if(node.getId() == inNode.getId()):
+            if(node.getId() == id):
                 return True
         return False
 
-    def findNode(self, inNode: Node) -> Node | None:
-        if(self.isNodeExist(inNode)):
+    def findNode(self, id: int) -> Node | None:
+        if(self.isNodeExist(id)):
             for node in self.graph:
-                if(node.getId() == inNode.getId()):
+                if(node.getId() == id):
                     return node
         
         return None
-
+    
     '''
         addEdge akan menambahkan jalur dari node1 ke node2
         Ini berarti node2 akan ada dalam connection node1
     '''
     def addEdge(self, node1: Node, node2: Node):
-        if(not self.isNodeExist(node1)):
+        if(not self.isNodeExist(node1.getId())):
             self.addNode(node1)
         
-        if(not self.isNodeExist(node2)):
+        if(not self.isNodeExist(node2.getId())):
             self.addNode(node2)
         
         node1.addConnection(node2)
