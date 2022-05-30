@@ -1,14 +1,18 @@
-from random import Random
-from re import I
+from ast import NodeTransformer
+from random import random, randint, choice
 
 from lib.graph import Graph
 from lib.node import Node
 
 class simulatedAnnealing:
-    def __init__(self, graph: Graph, data: map) -> None:
+    def __init__(self, graph: Graph, data: map, param: map) -> None:
+        if(self.graph == None or self.data == None or self.param == None):
+            raise("Terjadi kesalahan input param atau processing graph")
+
         self.graph = graph
         self.allNode = self.graph.getGraph()
         self.data = data
+        self.param = param
 
         self.setSisa()
 
@@ -128,6 +132,30 @@ class simulatedAnnealing:
             
             mapping.clear()
     
+    def tukarTugas(self):
+        r2 = choice(list(self.data['task']))
+        nodeR2 : Node = None
+
+        for node in self.allNode:
+            if(node.getId() == r2):
+                NodeR2 = node
+                break
+        
+        for node in self.allNode:
+            if(node.getId() == r2):
+                continue
+            else:
+                if(not node.isPrecedence(r2)):
+                    temp = nodeR2.getStasiun()
+                    nodeR2.setStasiun(node.getStasiun())
+                    node.setStasiun(temp)
+                    
+                    print("Menukar tugas {} dan {}".format(r2, node.getId()))
+
+                    self.setSisa()
+                    return
+
+
     def solve(self, mode):
         if(mode == 1):
             self.loopOne()
@@ -139,8 +167,17 @@ class simulatedAnnealing:
             raise("Terdapat kesalahan mode")
 
     def loopOne(self):
-        
-        pass
+        r1 = random()
+
+        if(r1 < self.param['P'][0]):
+            i = 0
+
+            while(i < self.param['I']):
+                a = 0
+                self.tukarTugas()
+                i += 1
+        else:
+            print("Penukaran tugas tidak dilakukan karena r1 > p1")
     
     def loopTwo(self):
         pass

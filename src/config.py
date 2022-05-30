@@ -13,10 +13,18 @@ fileCSV = "initialSolutionEx"
 dataInput = d1
 
 #Parameter loop
-p = [0.5, 0.5, 0.5]
+P = [0.5, 0.5, 0.5]
 A = 1
 B = 1
 C = 1
 
 #Jumlah Pengulangan
 I = 1
+
+PARAMETER = {
+    'P' : P,
+    'A' : A,
+    'B' : B,
+    'C' : C,
+    'I' : I,
+}

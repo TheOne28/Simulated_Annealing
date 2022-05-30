@@ -1,4 +1,5 @@
-from config import fileCSV, dataInput, 
+from timeit import timeit
+from config import fileCSV, dataInput, PARAMETER
 from lib.graph import Graph
 from lib.simulatedAnnealing import simulatedAnnealing
 from csvHandler import readFile
@@ -16,8 +17,9 @@ def createGraph(data: dict) -> Graph:
 def main():
     data = readFile(fileCSV, dataInput)
     graph = createGraph(data)
-    sa = simulatedAnnealing(graph, dataInput)
+    sa = simulatedAnnealing(graph, dataInput, PARAMETER)
     
+    start = timeit()
     before = sa.objectiveFunction()
 
     sa.printAll()
@@ -30,6 +32,7 @@ def main():
 
     after = sa.objectiveFunction()
 
+    end = timeit()
     print("Objective Function Before Inner Loop: ", before)
     print("Objective Function After Inner Loop: ", after)
     

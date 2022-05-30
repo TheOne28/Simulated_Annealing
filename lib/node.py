@@ -15,6 +15,9 @@ class Node:
         for key in waktuSisa.keys():
             self.model[key].append(waktuSisa[key])
 
+    def setStasiun(self, stasiun : int):
+        self.stasiun = stasiun
+
     def getConnection(self) -> list:
         return self.connection
 
@@ -49,6 +52,13 @@ class Node:
         
         return True
     
+    def isPrecedence(self, id: int) -> bool:
+        for each in self.connection():
+            if(each.getId() == id):
+                return False
+        
+        return True
+
     def printNode(self):
         print("id: {}".format(self.id))
         print("Stasiun: {}".format(self.stasiun))
