@@ -15,8 +15,9 @@ def createGraph(data: dict) -> Graph:
 def main():
     data = readFile(fileCSV, dataInput)
     graph = createGraph(data)
-    sa = simulatedAnnealing(graph, dataInput['ci'], dataInput['co'], dataInput['ct'], dataInput['d'], dataInput['saving'], dataInput['timetaken'])
+    sa = simulatedAnnealing(graph, dataInput)
     sa.setSisa()
+    sa.printAll()
     
     
 

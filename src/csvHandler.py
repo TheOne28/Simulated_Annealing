@@ -51,9 +51,9 @@ def readFile(filename: str, config: dict) -> dict | None:
                 if(resource != res):
                     raise("Masukan model tidak valid pada element dengan ID {}".format(id))
                 
-                dictNode[id].addModel(model,  waktu)
+                dictNode[id].addModel(model,  [waktu])
             else:
-                newModel = {model: waktu}
+                newModel = {model: [waktu]}
                 newNode = Node(id, station, newModel, resource)
                 dictNode[id] = newNode
     
