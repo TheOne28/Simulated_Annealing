@@ -1,7 +1,7 @@
 #EXAMPLE DATA, BASED ON initialSolutionEx
 
 TASK = (1,2,3,4,5,6,7,8,9,10)
-STATIONS = (1,2,3,4)
+STATIONS = [1,2,3,4]
 
 PRECEDENCES = [
     (1,2), (1,5),

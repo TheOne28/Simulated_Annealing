@@ -1,5 +1,4 @@
-from ast import NodeTransformer
-from random import random, randint, choice
+from random import random, choice
 
 from lib.graph import Graph
 from lib.node import Node
@@ -16,10 +15,10 @@ class simulatedAnnealing:
 
         self.setSisa()
 
-    def getByStasiun(self, allNode) -> dict:
+    def getByStasiun(self) -> dict:
         stas = {}
 
-        for node in allNode:
+        for node in self.allNode:
             stasiun = node.getStasiun()
 
             if(stasiun in stas.keys()):
@@ -56,7 +55,7 @@ class simulatedAnnealing:
     def setSisa(self):
         stations = self.data['stations']
 
-        stas = self.getByStasiun(self.allNode)
+        stas = self.getByStasiun()
         ct = self.data['ct']
         mapping = {}
 
@@ -176,6 +175,61 @@ class simulatedAnnealing:
 
             return True
 
+    def countTotalSisa(self) -> map:
+        sisa = {}
+
+        self.stas = self.getByStasiun()
+        
+        ct = self.data['ct']
+        count = 0
+
+        for station in self.data['stations']:
+            this = self.stas[station]
+            sum = 0
+            
+            for node in this:
+                allModel = node.getModel()
+                count = len(allModel)
+                for model in allModel.keys():
+                    sum += allModel[model][0]
+                
+            sisa[station] = (count * ct) - sum
+        
+        return sorted(sisa.values())
+
+    def minimStas(self, stasiun : int, totalWaktu: map) -> bool:
+        this = self.stas[stasiun]
+        idThis = []
+
+        ct = self.data['ct']
+        count = 0
+        for node in this:
+            idThis.append(node.getId())
+        
+        for node in self.allNode:
+            if(node.getId() not  in idThis):
+                allModel = node.getModel()
+                count = len(allModel)
+
+                sum = 0
+                for model in allModel:
+                    sum += allModel[model][0]
+                
+                if(totalWaktu[stasiun] + sum <= (count * ct)):
+                    node.setStasiun(stasiun)
+
+                    return True
+        return False
+
+
+    def removeUnusedStation(self):
+        stations = self.data['stations']
+
+        for i in range(len(stations)):
+            if(len(self.stas[self.data[stations[i]]]) == 0):
+                stations.pop(i)
+            
+            
 
 
     def solve(self, mode):
@@ -239,7 +293,30 @@ class simulatedAnnealing:
             print("Penukaran resource tidak dilakukan karena r3 > p2")
 
     def loopThree(self):
-        pass
+        r5 = random()
+
+        if(r5 < self.param['P'][2]):
+            
+            c = 0
+            """
+            !! Asumsi sisa waktu -> Sisa X + Sisa Y
+            """
+            totalWaktu = self.countTotalSisa()
+
+            while(c < self.param['C']):
+                p = 1
+
+                success = self.minimStasiun(p, totalWaktu)
+                    
+                if(success):
+                    self.removeUnusedStation()
+                    break
+                else:
+                    c += 1
+                    p += 1
+
+        else:
+            print("Minimalisasi Stasiun Kerja tidak dilakukan karena r5 > p3")
     
     def countRes(self):
         done = []
