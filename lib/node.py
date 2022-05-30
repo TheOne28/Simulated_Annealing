@@ -7,7 +7,10 @@ class Node:
         self.stasiun = stasiun
         self.model = model
         self.resource = resource
-    
+
+    def getConnection(self) -> list:
+        return self.connection
+
     def getId(self) -> int:
         return self.id
     

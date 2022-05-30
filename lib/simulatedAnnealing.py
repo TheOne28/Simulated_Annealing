@@ -1,10 +1,10 @@
 from random import Random
 
-from graph import Graph
-from node import Node
+from lib.graph import Graph
+from lib.node import Node
 
 class simulatedAnnealing:
-    def __init__(self, graph: Graph, ci: list, co: list, ct: int, d: int, tau: int, saving: map, timeTaken: map) -> None:
+    def __init__(self, graph: Graph, ci: list, co: list, ct: int, d: int, saving: map, timeTaken: map) -> None:
         self.graph = graph
         self.ci = ci
         self.co = co
@@ -12,9 +12,31 @@ class simulatedAnnealing:
         self.saving = saving
         self.timeTaken = timeTaken
         self.d = d
-        self.tau = tau
 
-    
+    def getByStasiun(self, allNode) -> dict:
+        stas = {}
+
+        for node in allNode:
+            id = node.getId()
+
+            if(id in stas.keys()):
+                stas[id].append(node)
+            else:
+                stas[id] = [node]
+        
+        return stas
+
+    def setSisa(self):
+        allNode = self.graph.getGraph()
+
+        stas = self.getByStasiun(allNode)
+
+        current = {}
+
+        for node in allNode:
+            id = node.getId()
+            print(id)
+
     def loopOne(self):
         
         pass
@@ -62,7 +84,7 @@ class simulatedAnnealing:
         ct = 19
         
         investasi = self.ci[0] * alpha + self.ci[1] * ro
-        operasional = (self.co[0] * alpha + self.co[1] * ro) * self.d * self.tau
+        operasional = (self.co[0] * alpha + self.co[1] * ro) * self.d 
         val = investasi + operasional - b2 -  b3
 
         return val
