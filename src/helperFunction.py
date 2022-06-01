@@ -25,7 +25,7 @@ def validateTask(task: int, alltask: tuple):
 def createGraph(data: dict, precedence: list) -> Graph:
     graph = Graph()
 
-    for pair in list:
+    for pair in precedence:
 
         graph.addEdge(data[pair[0]], data[pair[1]])
 

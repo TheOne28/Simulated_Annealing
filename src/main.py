@@ -9,7 +9,7 @@ from helperFunction import createGraph, inProb
 
 def main():
     data = readFile(fileCSV, dataInput)
-    graph = createGraph(data)
+    graph = createGraph(data, dataInput['precedences'])
     sa = simulatedAnnealing(graph, dataInput, Parameter)
     
     start = timeit()
@@ -18,7 +18,7 @@ def main():
 
 
     m = 0
-    T = Parameter['T']
+    T = Parameter['T0']
     sa.printAll()
     
     while(m < Parameter['M']):
