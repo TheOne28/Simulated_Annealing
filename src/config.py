@@ -2,6 +2,7 @@
 File berisi data config yang digunakan
 '''
 
+from re import M
 import sys
 from pathlib import Path
 
@@ -20,11 +21,19 @@ C = 1
 
 #Jumlah Pengulangan
 I = 1
+M = 1
+N = 1
+ALPHA = 1
+T0 = 1
 
-PARAMETER = {
+Parameter = {
     'P' : P,
     'A' : A,
     'B' : B,
     'C' : C,
     'I' : I,
+    'M' : M,
+    'N' : N,
+    'ALPHA' : ALPHA,
+    'T0' : T0,
 }

@@ -1,4 +1,5 @@
-from config import *
+from lib.graph import Graph
+from random import random
 
 question = {
     1 : "Apakah menjalankan inner loop penukaran tugas?",
@@ -21,13 +22,21 @@ def validateStation(stat: int, station: tuple):
 def validateTask(task: int, alltask: tuple):
     return task in alltask
 
-def getInput(mode) -> bool:
-    answer = ""
+def createGraph(data: dict, precedence: list) -> Graph:
+    graph = Graph()
 
-    while(answer.lower() != 'y' and answer.lower() != 'n'):
-        answer = input(question[mode] + "(y/n) ")
+    for pair in list:
 
-    if(answer.lower() == 'y'):
+        graph.addEdge(data[pair[0]], data[pair[1]])
+
+    return graph
+
+def inProb(T: int) -> bool:
+    r = random()
+
+    probFunc = T
+
+    if(probFunc > r):
         return True
     
-    return False
+    False

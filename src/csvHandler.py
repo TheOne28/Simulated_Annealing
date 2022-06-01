@@ -58,3 +58,7 @@ def readFile(filename: str, config: dict) -> dict | None:
                 dictNode[id] = newNode
     
     return dictNode
+
+
+def writeFile():
+    pass
