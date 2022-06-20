@@ -487,6 +487,10 @@ class simulatedAnnealing:
 
         return val
 
+    def revertChanges(self):
+        
+        for i in range(3):
+            
     def printAll(self):
 
         for node in self.allNode:

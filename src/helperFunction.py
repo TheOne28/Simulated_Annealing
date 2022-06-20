@@ -1,11 +1,7 @@
 from lib.graph import Graph
 from random import random
 
-question = {
-    1 : "Apakah menjalankan inner loop penukaran tugas?",
-    2 : "Apakah menjalankan inner loop penukaran Resource?",
-    3 : "Apakah menjalankan inner loop minimalisasi jumlah stasiun kerja?"
-}
+E = 2.718281828459045
 
 def validateResources(resource: str, res: dict) -> int:
     if resource in res.keys():
@@ -31,10 +27,10 @@ def createGraph(data: dict, precedence: list) -> Graph:
 
     return graph
 
-def inProb(T: int) -> bool:
+def inProb(T: int, deltaE: int) -> bool:
     r = random()
 
-    probFunc = T
+    probFunc = E ^ (deltaE * T)
 
     if(probFunc > r):
         return True

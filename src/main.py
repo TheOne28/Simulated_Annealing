@@ -26,18 +26,25 @@ def main():
         n = 0
 
         while(n < Parameter['N']):
-            print("Here")
             for i in range(1, 4):
                 sa.solve(i)
             
-        current = sa.objectiveFunction()
-        allObjective.append(current)
+            current = sa.objectiveFunction()
 
+            if(current > best):
+                best = current
+                allObjective.append(current)
+            else:
+                if(inProb(T, best - current)):
+                    allObjective.append(current)
+                else:
+                    sa.revertChanges()
+            
+            n += 1
+            
         T -= Parameter['ALPHA'] * T
 
-        if(current > best and not inProb(Parameter['T'])):
-            break
-
+    
     end = timeit()
     
 
