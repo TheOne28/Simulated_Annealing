@@ -2,6 +2,7 @@
 
 TASK = (1,2,3,4,5,6,7,8,9,10)
 STATIONS = [1,2,3,4]
+MODEL = ['X', 'Y']
 
 PRECEDENCES = [
     (1,2), (1,5),
@@ -74,4 +75,5 @@ dataSource = {
     'timetaken' : TIME_TAKEN,
     'saving' : SAVING,
     'd' : D,
+    'model' : MODEL
 }

@@ -39,4 +39,4 @@ def inProb(T: int) -> bool:
     if(probFunc > r):
         return True
     
-    False
+    return False

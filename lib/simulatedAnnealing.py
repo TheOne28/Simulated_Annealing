@@ -1,31 +1,34 @@
 from random import random, choice
+from statistics import mode
+
 
 from lib.graph import Graph
 from lib.node import Node
 
 class simulatedAnnealing:
     def __init__(self, graph: Graph, data: map, param: map) -> None:
-        if(self.graph == None or self.data == None or self.param == None):
-            raise("Terjadi kesalahan input param atau processing graph")
+        if(graph == None or data == None or     param == None):
+            raise Exception("Terjadi kesalahan input param atau processing graph")
 
         self.graph = graph
         self.allNode = self.graph.getGraph()
         self.data = data
         self.param = param
+        self.command = []
 
+        self.getByStasiun()
         self.setSisa()
 
-    def getByStasiun(self) -> dict:
-        stas = {}
+    def getByStasiun(self):
+        self.stas = {}
 
         for node in self.allNode:
             stasiun = node.getStasiun()
 
-            if(stasiun in stas.keys()):
-                stas[stasiun].append(node)
+            if(stasiun in self.stas.keys()):
+                self.stas[stasiun].append(node)
             else:
-                stas[stasiun] = [node]
-        return stas
+                self.stas[stasiun] = [node]
 
     def getAllParent(self, allNode) -> list | None:
         parent = []
@@ -52,114 +55,181 @@ class simulatedAnnealing:
 
         return minimum
 
-    def setSisa(self):
-        stations = self.data['stations']
-
-        stas = self.getByStasiun()
+    def sisaEachStation(self, station: int, listNode: list):
         ct = self.data['ct']
         mapping = {}
+        done = []
+        sisa = {}
 
-        for station in stations:
-            current : list[Node] = stas[station]
-            done = []
-            sisa = {}
-            allParent = self.getAllParent(current)
+        allParent = self.getAllParent(listNode)
             
-            if(len(allParent) == 0):
-                raise("Terdapat kesalahan pada graf untuk stasiun {}, tidak ada parent Node".format(station))
+        if(len(allParent) == 0):
+            raise Exception("Terdapat kesalahan pada graf untuk stasiun {}, tidak ada parent Node".format(station))
 
-            for parent in allParent:
-                resource = parent.getResource()
-                allModel = parent.getModel()
+        for parent in allParent:
+            resource = parent.getResource()
+            allModel = parent.getModel()
     
-                """
-                !! Belum kehanlde, kalau misal waktusisanya dah 0 gimana?
-                """
-                if(resource == 1 or resource == 2):
-                    for model in allModel.keys():
-                        minimum = self.findMinimum(ct, resource, model, mapping, 1)
+            """
+            !! Belum kehanlde, kalau misal waktusisanya dah 0 gimana?
+            """
 
-                        mapping["{}{}".format(resource, model)] = minimum - allModel[model][0]
-                        sisa[model] = minimum - allModel[model][0]
-                else:
-                    for model in allModel.keys():
-                        minimum = self.findMinimum(ct, resource, model, mapping, 2)
-                        mapping["1{}".format(resource, model)] = minimum - allModel[model][0]
-                        mapping["2{}".format(resource, model)] = minimum - allModel[model][0]
-                        sisa[model] = minimum - allModel[model][0]
+            save = True
 
-                done.append(parent.getId())
-                parent.setWaktuSisa(sisa)
+            if(resource == 1 or resource == 2):
+                for model in allModel.keys():
+                    minimum = self.findMinimum(ct, resource, model, mapping, 1)
 
-            for parent in allParent:
-                allConnect = [parent]
-                
-                while(True):
-                    if(len(allConnect) == 0):
-                        break
+                    mapping["{}{}".format(resource, model)] = minimum - allModel[model][0]
                     
-                    before = allConnect[0]
-                    connection = before.getConnection()
-                    allConnect.pop(0)
+                    if(minimum < allModel[model][0]):
+                        save = False
+                    else: 
+                        sisa[model] = minimum - allModel[model][0]
 
-                    for each in connection:
-                        if(each.getStasiun() != station or each.getId() in done):
-                            continue
-                        
-                        resource = each.getResource()
-                        allModel = each.getModel()
 
-                        if(resource == 1 or resource == 2):
-                            for model in allModel.keys():
-                                checkbef = before.getWaktuSisa(model)
-                                minimum = self.findMinimum(checkbef, resource, model, mapping, 1)                                
+            else:
+                for model in allModel.keys():
+                    minimum = self.findMinimum(ct, resource, model, mapping, 2)
+                    mapping["1{}".format(resource, model)] = minimum - allModel[model][0]
+                    mapping["2{}".format(resource, model)] = minimum - allModel[model][0]
+                    
+                    if(minimum < allModel[model][0]):
+                        save = False
+                    else:
+                        sisa[model] = minimum - allModel[model][0]
+
+            if(not save):
+                return False
+
+            done.append(parent.getId())
+            parent.setWaktuSisa(sisa)
+
+        for parent in allParent:
+            allConnect = [parent]
+                
+            while(True):
+                if(len(allConnect) == 0):
+                    break
+                    
+                before = allConnect[0]
+                connection = before.getConnection()
+                allConnect.pop(0)
+
+                for each in connection:
+                    if(each.getStasiun() != station or each.getId() in done):
+                        continue
+                    
+                    save = True
+
+                    resource = each.getResource()
+                    allModel = each.getModel()
+
+                    if(resource == 1 or resource == 2):
+                        for model in allModel.keys():
+                            checkbef = before.getWaktuSisa(model)
+                            minimum = self.findMinimum(checkbef, resource, model, mapping, 1)      
+
+                            if(minimum < allModel[model][0]):
+                                save = False
+                            else:
                                 mapping["{}{}".format(resource, model)] = minimum - allModel[model][0]
                                 sisa[model] = mapping["{}{}".format(resource, model)]
-                        else:
-                            for model in allModel.keys():
-                                checkbef = before.getWaktuSisa(model)
+                    else:
+                        for model in allModel.keys():
+                            checkbef = before.getWaktuSisa(model)
 
-                                minimum = self.findMinimum(checkbef, resource, model, mapping, 2)
+                            minimum = self.findMinimum(checkbef, resource, model, mapping, 2)
 
+                            if(minimum < allModel[model][0]):
+                                save = False
+                            else:
                                 mapping["1{}".format(model)] = minimum - allModel[model][0]
                                 mapping["2{}".format(model)] =  mapping["1{}".format(model)]
                                 sisa[model] = mapping["1{}".format(model)]
                     
-                        done.append(each.getId())
-                        each.setWaktuSisa(sisa)
-                        allConnect.append(each)
-            
-            mapping.clear()
+                    if(not save):
+                        return False
     
+                    done.append(each.getId())
+                    each.setWaktuSisa(sisa)
+                    allConnect.append(each)
+        return True
 
-    def tukarTugas(self, exclude : list) -> bool:
+
+    def setSisa(self):
+        stations = self.data['stations']
+
+        for station in stations:
+            self.sisaEachStation(station, self.stas[station])
+            
+    
+    def trySwap(self, node) -> bool:
+        resourceBefore = node.resource
+        allResource = self.data['resources']
+
+        
+        self.getByStasiun()
+        
+        if(self.sisaEachStation(node.station, self.stas[node.station])):
+            return True
+        else:
+            for resource in allResource.keys() and resource != resourceBefore:
+                node.resource = resource
+
+                if(self.sisaEachStation(node.station, self.stas[node.station])):
+                    return True
+            
+            node.resource = resourceBefore
+                
+            return False
+
+
+    # Main job untuk loop one
+    def tukarTugas(self) -> bool:
         r2 = choice(list(self.data['task']))
 
-        while(r2 in exclude):
-            r2 = choice(list(self.data['task']))
 
-        nodeR2 : Node = self.graph.findNode(r2)
+        nodeR2 : Node = self.graph.findNode(r2) 
+
+        stas = nodeR2.stasiun
+
+        start = -1
+        end = -1
+
+        if(stas > 3):
+            start = stas - 1
         
-        for node in self.allNode:
-            if(node.getId() == r2):
-                continue
-            else:
-                if(not node.isPrecedence(r2)):
-                    temp = nodeR2.getStasiun()
-                    nodeR2.setStasiun(node.getStasiun())
-                    node.setStasiun(temp)
-                    
-                    print("Menukar tugas {} dan {}".format(r2, node.getId()))
+        if(stas < len(self.data['stations']) - 2):
+            end = stas - 1
 
-                    self.setSisa()
-                    return 0
-        return r2
+        for key in self.stas.keys():
+            if(key != stas and key >= start and key <= end):
+                thisNode = self.stas[key]
 
-    def tukarResource(self, exclude) -> bool:
+                for node in thisNode:
+                    if(not node.isPrecedence(r2) and not nodeR2.isPrecedence(node.id)):
+                        temp = node.station
+                        node.station = nodeR2.station
+                        nodeR2.station = temp
+
+                        if(self.trySwap(node) and self.trySwap(nodeR2)):
+                            self.command.append({
+                                "job" : 1,
+                                "node1" : node.id,
+                                "node2": nodeR2.id
+                            })
+
+                            return True
+                        else:
+                            nodeR2.station = node.station
+                            node.station = temp                        
+        return False
+
+    #Main job untuk loop two
+    def tukarResource(self) -> bool:
         r4 = choice(list(self.data['task']))
         
-        while(r4 in exclude):
-            r4 = choice(list(self.data['task']))
         
         s1 = choice(list(self.data['resources'].keys()))
 
@@ -168,20 +238,26 @@ class simulatedAnnealing:
         if(node4.getResource() == s1):
             return False
         else:
-            node4.setResource(s1)
-            print("Menukar resource tugas {} dengan {}".format(r4, s1))
+            before = node4.resource
+            node4.resource = s1
 
-            self.setSisa()
-
+            if(not self.sisaEachStation(node4.stasiun, self.stas[node4.stasiun])):
+                node4.resource = before
+                return False
+            
+            self.command.append({
+                "job": 2,
+                "node" : node4.id,
+                "before" : before,
+                "after": s1,
+            })
             return True
 
-    def countTotalSisa(self) -> map:
+    def countTotalSisa(self, model : str) -> map:
         sisa = {}
 
-        self.stas = self.getByStasiun()
         
         ct = self.data['ct']
-        count = 0
 
         for station in self.data['stations']:
             this = self.stas[station]
@@ -189,36 +265,38 @@ class simulatedAnnealing:
             
             for node in this:
                 allModel = node.getModel()
-                count = len(allModel)
-                for model in allModel.keys():
-                    sum += allModel[model][0]
+                sum += allModel[model][0]
                 
-            sisa[station] = (count * ct) - sum
+            sisa[station] = ct - sum
         
         return sorted(sisa.values())
 
-    def minimStas(self, stasiun : int, totalWaktu: map) -> bool:
+    #Main job untuk loop three  
+    def minimStas(self, stasiun : int, totalWaktu: map, model : str) -> bool:
         this = self.stas[stasiun]
         idThis = []
 
         ct = self.data['ct']
         count = 0
+
         for node in this:
             idThis.append(node.getId())
         
+
         for node in self.allNode:
             if(node.getId() not  in idThis):
-                allModel = node.getModel()
-                count = len(allModel)
-
-                sum = 0
-                for model in allModel:
-                    sum += allModel[model][0]
-                
-                if(totalWaktu[stasiun] + sum <= (count * ct)):
-                    node.setStasiun(stasiun)
-
+                before = node.stasiun
+                node.stasiun = stasiun
+                if(self.trySwap()):
+                    self.command.append({
+                        "job" : 3,
+                        "node" : node.id,
+                        "stasiun" : 1,
+                    })
                     return True
+                else:
+                    node.stasiun = before
+
         return False
 
 
@@ -228,7 +306,6 @@ class simulatedAnnealing:
         for i in range(len(stations)):
             if(len(self.stas[self.data[stations[i]]]) == 0):
                 stations.pop(i)
-            
             
 
 
@@ -240,83 +317,116 @@ class simulatedAnnealing:
         elif(mode == 3):
             self.loopThree()
         else:
-            raise("Terdapat kesalahan mode")
+            raise Exception("Terdapat kesalahan mode")
 
     def loopOne(self):
         r1 = random()
 
+        self.getByStasiun()
+
         if(r1 < self.param['P'][0]):
             i = 0
+            can = False
 
             while(i < self.param['I']):
                 a = 0
-                exclude = []
                 while(a < self.param['A']):
-                    success = self.tukarTugas(exclude)
+                    success = self.tukarTugas()
                     
-                    """
-                        success
-                            0 -> Penukaran berhasil
-                            r2 -> gagal karena Tugas r2 tidak bisa ditukar
-                    """
-                    if(success == 0):
+                    if(success):
+                        can = True
                         break
                     else:
-                        exclude.append(success)
                         a += 1
+                if(can):
+                    break
+                
                 i += 1
+            
+            if(not can):
+                self.command.append({
+                    "job" : 1,
+                    "node1": -1,
+                    "node2" : -1,
+                })
         else:
-            print("Penukaran tugas tidak dilakukan karena r1 > p1")
+            self.command.append({
+                "job" : -1
+            })
     
     def loopTwo(self):
         r3 = random()
 
+        self.getByStasiun()
+
         if(r3 < self.param['P'][1]):
             i = 0
-            
+            can = False
             while(i < self.param['I']):
                 b = 0
-                exclude = []
 
                 while(b < self.param['B']):
-                    success = self.tukarResource(exclude)
+                    success = self.tukarResource()
                     """
                         success 
                             True -> Penukaran berhasil
                             False -> Penukaran Gagal karena resource
                     """
                     if(success):
+                        can = True
                         break
 
+                if(can):
+                    break
+
                 i += 1
+            
+            if(not can):
+                self.command.append({
+                    "job" : 2,
+                    "node": -1,
+                    "before": -1,
+                    "after" : -1
+                })
         else:
-            print("Penukaran resource tidak dilakukan karena r3 > p2")
+            self.command.append({
+                "job" : -1
+            })
 
     def loopThree(self):
         r5 = random()
 
+        self.getByStasiun()
+
         if(r5 < self.param['P'][2]):
-            
+            selectedModel = choice(self.data['model'])
             c = 0
-            """
-            !! Asumsi sisa waktu -> Sisa X + Sisa Y
-            """
-            totalWaktu = self.countTotalSisa()
+            can = False
+
+            totalWaktu = self.countTotalSisa(selectedModel)
 
             while(c < self.param['C']):
                 p = 1
 
-                success = self.minimStasiun(p, totalWaktu)
+                success = self.minimStas(p, totalWaktu)
                     
                 if(success):
+                    can = True
                     self.removeUnusedStation()
                     break
                 else:
                     c += 1
                     p += 1
+            
+            if(not can):
+                self.command.append({
+                    "job" : -1,
 
+                })
         else:
-            print("Minimalisasi Stasiun Kerja tidak dilakukan karena r5 > p3")
+            self.command.append({
+                "job" : -1
+            })
     
     def countRes(self):
         done = []
@@ -380,4 +490,4 @@ class simulatedAnnealing:
     def printAll(self):
 
         for node in self.allNode:
-            node.printNode()
+            node.printNode() 

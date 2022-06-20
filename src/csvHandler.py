@@ -32,19 +32,19 @@ def readFile(filename: str, config: dict) -> dict | None:
             waktu = int(data[4])
 
             if(not validateResources(resource, config['resources'])):
-                raise("Masukan resource tidak valid pada element dengan ID {} dan Model {}", id, model)
+                raise Exception("Masukan resource tidak valid pada element dengan ID {} dan Model {}", id, model)
             
             resource = config['resources'][resource]
 
 
             if(not validateWaktu(waktu, config['ct'])):
-                raise("Masukan waktu tidak valid pada element dengan ID {} dan Model {}", id, model)
+                raise Exception("Masukan waktu tidak valid pada element dengan ID {} dan Model {}", id, model)
 
             if(not validateTask(id, config['task'])):
-                raise("Masukan task tidak valid dengan ID {}", id)
+                raise Exception("Masukan task tidak valid dengan ID {}", id)
 
             if(not validateStation(station, config['stations'])):
-                raise("Masukan station tidak valid pada element dengan ID {}", id)
+                raise Exception("Masukan station tidak valid pada element dengan ID {}", id)
 
             if(id in dictNode.keys()):
                 res = dictNode[id].getResource()

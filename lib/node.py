@@ -1,15 +1,21 @@
 
 
-from psycopg2 import connect
-
-
 class Node:
     def __init__(self, id:int, stasiun: int, model: dict, resource: int ) -> None:
         self.id = id
         self.connection = []
+        self.precedence = []
         self.stasiun = stasiun
         self.model = model
         self.resource = resource
+
+    def __init__(self, otherNode):
+        self.id = otherNode.id
+        self.connection = otherNode.connection
+        self.precedence = otherNode.precedence
+        self.stasiun = otherNode.stasiun
+        self.model = otherNode.model
+        self.resource = otherNode.resource  
 
     def setWaktuSisa(self, waktuSisa: map):
         for key in waktuSisa.keys():
@@ -44,23 +50,23 @@ class Node:
 
     def addConnection(self, friendNode):
         self.connection.append(friendNode)
+
+        if(len(friendNode.precedence) != 0):
+            for precend in friendNode.precedence:
+                self.precedence.append(precend)
+        
+        self.precedence.append(friendNode.id)
     
     def isParent(self, listNode: list) -> bool:
 
         for node in listNode:
-            connect = node.getConnection()
-            for each in connect:
-                if(self.id  == each.getId()):
-                    return False
+            if(node.id in self.precedence):
+                return False
         
         return True
     
     def isPrecedence(self, id: int) -> bool:
-        for each in self.connection():
-            if(each.getId() == id):
-                return False
-        
-        return True
+        return id in self.precedence
 
     def printNode(self):
         print("id: {}".format(self.id))

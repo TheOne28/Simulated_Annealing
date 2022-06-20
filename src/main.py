@@ -8,6 +8,7 @@ from helperFunction import createGraph, inProb
 
 
 def main():
+    print("Here")
     data = readFile(fileCSV, dataInput)
     graph = createGraph(data, dataInput['precedences'])
     sa = simulatedAnnealing(graph, dataInput, Parameter)
@@ -25,11 +26,10 @@ def main():
         n = 0
 
         while(n < Parameter['N']):
+            print("Here")
             for i in range(1, 4):
                 sa.solve(i)
             
-
-
         current = sa.objectiveFunction()
         allObjective.append(current)
 
@@ -39,8 +39,6 @@ def main():
             break
 
     end = timeit()
-    print("Objective Function Before Inner Loop: ", current[0])
-    print("Objective Function After Inner Loop: ", current[len(current) - 1])
     
 
 if(__name__ == "__main__"):
