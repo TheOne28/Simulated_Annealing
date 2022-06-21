@@ -1,6 +1,8 @@
 from random import random, choice
 from statistics import mode
 
+from sklearn.naive_bayes import BernoulliNB
+
 
 from lib.graph import Graph
 from lib.node import Node
@@ -272,12 +274,9 @@ class simulatedAnnealing:
         return sorted(sisa.values())
 
     #Main job untuk loop three  
-    def minimStas(self, stasiun : int, totalWaktu: map, model : str) -> bool:
+    def minimStas(self, stasiun : int) -> bool:
         this = self.stas[stasiun]
         idThis = []
-
-        ct = self.data['ct']
-        count = 0
 
         for node in this:
             idThis.append(node.getId())
@@ -291,7 +290,7 @@ class simulatedAnnealing:
                     self.command.append({
                         "job" : 3,
                         "node" : node.id,
-                        "stasiun" : 1,
+                        "stasiun" : stasiun,
                     })
                     return True
                 else:
@@ -420,8 +419,9 @@ class simulatedAnnealing:
             
             if(not can):
                 self.command.append({
-                    "job" : -1,
-
+                    "job" : 3,
+                    "node" : -1,
+                    "stasiun": -1
                 })
         else:
             self.command.append({
@@ -487,10 +487,51 @@ class simulatedAnnealing:
 
         return val
 
-    def revertChanges(self):
+    def revertOne(self, node1: Node, node2: Node):
+        temp = node1.stasiun
+        node1.stasiun = node2.stasiun
+        node2.stasiun = temp
+
+        self.getByStasiun()
+
+        self.sisaEachStation(node1.stasiun, self.stas[node1.stasiun])
+        self.sisaEachStation(node2.stasiun, self.stas[node2.stasiun])
+
+    def revertTwo(self, node: Node, before: str):
+        node.resource = before
+
+        self.sisaEachStation(node.stasiun, self.stas[node.stasiun])
+
+    def revertThree(self, node: Node, stasiun: int):
+        if(stasiun not in self.data['stations']):
+            self.data['stations'].append(stasiun)
         
-        for i in range(3):
-            
+        before = node.stasiun
+        node.stasiun = stasiun
+
+        self.getByStasiun()
+
+        self.sisaEachStation(stasiun, self.stas[stasiun])
+        self.sisaEachStation(before, self.stas[before])
+
+
+    def revertChanges(self):
+        loopone = self.command[0]
+        looptwo = self.command[1]
+        loopthree = self.command[2]
+
+        if(loopone['job'] != -1):
+            if(loopone["node1"] != -1):
+                self.revertOne()
+
+        if(looptwo['job'] != -1):
+            if(loopone["node"] != -1):
+                self.revertTwo()        
+        
+        if(loopthree['job'] != -1):
+            if(loopone["node"] != -1):
+                self.revertThree()
+
     def printAll(self):
 
         for node in self.allNode:
