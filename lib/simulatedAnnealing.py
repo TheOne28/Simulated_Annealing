@@ -19,6 +19,12 @@ class simulatedAnnealing:
         self.command = []
 
         self.getByStasiun()
+
+        # for key in self.stas.keys():
+        #     print("Stasiun", key)
+        #     for node in self.stas[key]:
+        #         print(node.id)
+
         self.setSisa()
 
     def getByStasiun(self):
@@ -32,13 +38,12 @@ class simulatedAnnealing:
             else:
                 self.stas[stasiun] = [node]
 
-    def getAllParent(self, allNode) -> list | None:
+    def getAllParent(self, allNode) -> list:
         parent = []
 
         for node in allNode:
             if(node.isParent(allNode)):
                 parent.append(node)
-        
         return parent
     
     def findMinimum(self, before, resource, model, mapping, mode) -> int:
@@ -72,21 +77,16 @@ class simulatedAnnealing:
             resource = parent.getResource()
             allModel = parent.getModel()
     
-            """
-            !! Belum kehanlde, kalau misal waktusisanya dah 0 gimana?
-            """
-
             save = True
 
             if(resource == 1 or resource == 2):
                 for model in allModel.keys():
                     minimum = self.findMinimum(ct, resource, model, mapping, 1)
 
-                    mapping["{}{}".format(resource, model)] = minimum - allModel[model][0]
-                    
                     if(minimum < allModel[model][0]):
                         save = False
                     else: 
+                        mapping["{}{}".format(resource, model)] = minimum - allModel[model][0]
                         sisa[model] = minimum - allModel[model][0]
 
 
@@ -173,14 +173,15 @@ class simulatedAnnealing:
         
         self.getByStasiun()
         
-        if(self.sisaEachStation(node.station, self.stas[node.station])):
+        if(self.sisaEachStation(node.stasiun, self.stas[node.stasiun])):
             return True
         else:
-            for resource in allResource.keys() and resource != resourceBefore:
-                node.resource = resource
+            for resource in allResource.keys():
+                if(resource != resourceBefore):
+                    node.resource = resource
 
-                if(self.sisaEachStation(node.station, self.stas[node.station])):
-                    return True
+                    if(self.sisaEachStation(node.stasiun, self.stas[node.stasiun])):
+                        return True
             
             node.resource = resourceBefore
                 
@@ -286,7 +287,7 @@ class simulatedAnnealing:
             if(node.getId() not  in idThis):
                 before = node.stasiun
                 node.stasiun = stasiun
-                if(self.trySwap()):
+                if(self.trySwap(node)):
                     self.command.append({
                         "job" : 3,
                         "node" : node.id,
@@ -303,7 +304,8 @@ class simulatedAnnealing:
         stations = self.data['stations']
 
         for i in range(len(stations)):
-            if(len(self.stas[self.data[stations[i]]]) == 0):
+            stas = stations[i]
+            if(len(self.stas[stas]) == 0):
                 stations.pop(i)
             
 
@@ -407,7 +409,7 @@ class simulatedAnnealing:
             while(c < self.param['C']):
                 p = 1
 
-                success = self.minimStas(p, totalWaktu)
+                success = self.minimStas(p)
                     
                 if(success):
                     can = True

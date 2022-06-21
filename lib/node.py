@@ -9,17 +9,12 @@ class Node:
         self.model = model
         self.resource = resource
 
-    def __init__(self, otherNode):
-        self.id = otherNode.id
-        self.connection = otherNode.connection
-        self.precedence = otherNode.precedence
-        self.stasiun = otherNode.stasiun
-        self.model = otherNode.model
-        self.resource = otherNode.resource  
-
     def setWaktuSisa(self, waktuSisa: map):
         for key in waktuSisa.keys():
-            self.model[key].append(waktuSisa[key])
+            if(len(self.model[key]) == 1):
+                self.model[key].append(waktuSisa[key])
+            else:
+                self.model[key][1] = waktuSisa[key]
 
     def setStasiun(self, stasiun : int):
         self.stasiun = stasiun
@@ -51,11 +46,11 @@ class Node:
     def addConnection(self, friendNode):
         self.connection.append(friendNode)
 
-        if(len(friendNode.precedence) != 0):
-            for precend in friendNode.precedence:
-                self.precedence.append(precend)
+        if(len(self.precedence) != 0):
+            for precend in self.precedence:
+                friendNode.precedence.append(precend)
         
-        self.precedence.append(friendNode.id)
+        friendNode.precedence.append(self.id)
     
     def isParent(self, listNode: list) -> bool:
 

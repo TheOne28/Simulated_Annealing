@@ -31,7 +31,12 @@ def readFile(filename: str, config: dict) -> dict | None:
             model = data[2]
             resource = data[3]
             waktu = int(data[4])
-
+            
+            # print(station)
+            # print(id)
+            # print(model)
+            # print(resource)
+            # print(waktu)
             if(not validateResources(resource, config['resources'])):
                 raise Exception("Masukan resource tidak valid pada element dengan ID {} dan Model {}", id, model)
             

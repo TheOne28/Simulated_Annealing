@@ -8,15 +8,14 @@ from helperFunction import createGraph, inProb
 
 
 def main():
-    print("Here")
     data = readFile(fileCSV, dataInput)
     graph = createGraph(data, dataInput['precedences'])
     sa = simulatedAnnealing(graph, dataInput, Parameter)
     
     start = timeit()
     best = sa.objectiveFunction()
-    allObjective = [best]
-
+    allObjective = [[1,best]]
+    allCommand = []
 
     m = 0
     T = Parameter['T0']
@@ -33,20 +32,24 @@ def main():
 
             if(current > best):
                 best = current
-                allObjective.append(current)
+                allObjective.append([1,current])
+                allCommand.append([1, sa.command])
             else:
                 if(inProb(T, best - current)):
-                    allObjective.append(current)
+                    allCommand.append([1, sa.command])
+                    allObjective.append([1,current])
                 else:
+                    allObjective.append([-1, current])
+                    allCommand.append([-1, sa.command])
                     sa.revertChanges()
             
             n += 1
             
-        T -= Parameter['ALPHA'] * T
+        T -= (Parameter['ALPHA'] * T)
 
     
     end = timeit()
-    
+    print("Waktu yang dibutuhkan", start - end)
 
 if(__name__ == "__main__"):
     main()
