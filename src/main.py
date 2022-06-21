@@ -2,7 +2,7 @@ from timeit import timeit
 from config import fileCSV, dataInput, Parameter
 from lib.graph import Graph
 from lib.simulatedAnnealing import simulatedAnnealing
-from csvHandler import readFile
+from ioHandler import readFile
 
 from helperFunction import createGraph, inProb
 

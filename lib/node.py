@@ -68,6 +68,15 @@ class Node:
     def isPrecedence(self, id: int) -> bool:
         return id in self.precedence
 
+    def toList(self) -> list:
+        val = []
+
+        for model in self.model.keys():
+            row = [self.stasiun, self.id, model, self.resource, self.model[model][0], self.model[model][1]]
+            val.append(row)
+        
+        return val
+
     def printNode(self):
         print("id: {}".format(self.id))
         print("Stasiun: {}".format(self.stasiun))
