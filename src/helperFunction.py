@@ -32,7 +32,7 @@ def inProb(T: int, deltaE: int) -> bool:
 
     print(deltaE)
     print(r)
-    probFunc = E ** (deltaE * T)
+    probFunc = E ** (deltaE / T)
 
     if(probFunc > r):
         return True
