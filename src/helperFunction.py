@@ -31,7 +31,7 @@ def inProb(T: int, deltaE: int) -> bool:
     r = random()
 
     print(deltaE)
-    print(r)
+    print(T)
     probFunc = E ** (deltaE / T)
 
     if(probFunc > r):

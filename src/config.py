@@ -2,7 +2,6 @@
 File berisi data config yang digunakan
 '''
 
-from re import M
 import sys
 from pathlib import Path
 

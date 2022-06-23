@@ -1,8 +1,4 @@
 from random import random, choice
-from statistics import mode
-
-from sklearn.naive_bayes import BernoulliNB
-
 
 from lib.graph import Graph
 from lib.node import Node
@@ -201,10 +197,14 @@ class simulatedAnnealing:
         end = -1
 
         if(stas > 3):
-            start = stas - 1
+            start = stas - 2
+        else:
+            start = max(stas - 2, 1)
         
         if(stas < len(self.data['stations']) - 2):
             end = stas - 1
+        else:
+            end = min(stas +  2, len(self.data['stations']))
 
         for key in self.stas.keys():
             if(key != stas and key >= start and key <= end):
@@ -527,11 +527,11 @@ class simulatedAnnealing:
                 self.revertOne()
 
         if(looptwo['job'] != -1):
-            if(loopone["node"] != -1):
+            if(looptwo["node"] != -1):
                 self.revertTwo()        
         
         if(loopthree['job'] != -1):
-            if(loopone["node"] != -1):
+            if(loopthree["node"] != -1):
                 self.revertThree()
 
     def printAll(self):

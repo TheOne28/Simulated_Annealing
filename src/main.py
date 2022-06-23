@@ -2,7 +2,7 @@ from timeit import timeit
 from config import fileCSV, dataInput, Parameter
 from lib.graph import Graph
 from lib.simulatedAnnealing import simulatedAnnealing
-from ioHandler import readFile
+from ioHandler import readFile, writeFileCSV, writeFileObj, writeCommand
 
 from helperFunction import createGraph, inProb
 
@@ -30,12 +30,12 @@ def main():
             
             current = sa.objectiveFunction()
 
-            if(current > best):
+            if(current < best):
                 best = current
                 allObjective.append([1,current])
                 allCommand.append([1, sa.command])
             else:
-                if(inProb(T, best - current)):
+                if(inProb(T, abs(best - current))):
                     allCommand.append([1, sa.command])
                     allObjective.append([1,current])
                 else:
@@ -49,6 +49,9 @@ def main():
 
     
     end = timeit()
+    writeFileCSV(sa, fileCSV)
+    writeCommand(allCommand, fileCSV)
+    writeFileObj(allObjective, fileCSV)
     print("Waktu yang dibutuhkan", start - end)
 
 if(__name__ == "__main__"):

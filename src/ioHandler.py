@@ -65,7 +65,7 @@ def readFile(filename: str, config: dict) -> dict | None:
     
     return dictNode
 
-
+#Belum dipanggil di main
 def writeFileCSV(sa: simulatedAnnealing, suffix: str):
     filePath = str(Path(Path(__file__).parent).parent) + "\\data\\output\\" + "finalSolution-" + suffix + '.csv'
     header = ['Station', 'Element', 'Model', 'Resource', 'Waktu', 'Waktu Sisa']
