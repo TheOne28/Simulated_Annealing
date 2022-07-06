@@ -30,7 +30,7 @@ def readFile(filename: str, config: dict) -> dict | None:
             id = int(data[1])
             model = data[2]
             resource = data[3]
-            waktu = int(data[4])
+            waktu = float(data[4])
             
             # print(station)
             # print(id)
@@ -43,7 +43,7 @@ def readFile(filename: str, config: dict) -> dict | None:
             resource = config['resources'][resource]
 
 
-            if(not validateWaktu(waktu, config['ct'])):
+            if(not validateWaktu(waktu, float(config['ct']))):
                 raise Exception("Masukan waktu tidak valid pada element dengan ID {} dan Model {}", id, model)
 
             if(not validateTask(id, config['task'])):
@@ -92,9 +92,9 @@ def writeFileObj(allObj: list, suffix: str):
 
     for i in range(len(allObj)):
         if(allObj[i][0] == -1):
-            file.write(f"Iterasi ke {i + 1}: Tidak dipakai\nNilai yang didapatkan: {allObj[i][1]}")
+            file.write(f"Iterasi ke {i + 1}: Tidak dipakai\nNilai yang didapatkan: {allObj[i][1]}\n")
         else:
-            file.write(f"Iterasi ke {i + 1}: {allObj[i][1]}")
+            file.write(f"Iterasi ke {i + 1}: {allObj[i][1]}\n")
 
 def writeCommand(allCommand: list, suffix: str):
     filePath = str(Path(Path(__file__).parent).parent) + "\\data\\output\\" + "listCommand-" + suffix + '.txt'
@@ -103,36 +103,36 @@ def writeCommand(allCommand: list, suffix: str):
 
     for i in range(len(allCommand)):
         if(allCommand[i][0] == -1):
-            file.write(f"Iterasi ke {i+1}, command tidak dipakai")
+            file.write(f"Iterasi ke {i+1}, command tidak dipakai\n")
         else:
-            file.write(f"Iterasi ke {i + 1}, command dipakai")
+            file.write(f"Iterasi ke {i + 1}, command dipakai\n")
         
-        file.write("Command: ")
+        file.write("Command: \n")
 
         loopOne = allCommand[i][1][0]
         loopTwo = allCommand[i][1][1]
         loopThree = allCommand[i][1][2]
 
         if(loopOne['job'] == -1):
-            file.write("Loop pertama tidak dilakukan")
+            file.write("\tLoop pertama tidak dilakukan\n")
         else:
             if(loopOne['node1'] == -1):
-                file.write("Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar")
+                file.write("\tLoop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar\n")
             else:
-                file.write(f"Loop pertama menukar tugas {loopOne['node1']} dengan tugas {loopOne['node2']}")
+                file.write(f"\tLoop pertama menukar tugas {loopOne['node1']} dengan tugas {loopOne['node2']}\n")
         
         if(loopTwo['job'] == -1):
-            file.write("Loop kedua tidak dilakukan")
+            file.write("\tLoop kedua tidak dilakukan\n")
         else:
             if(loopTwo['node'] == -1):
-                file.write("Loop kedua dilakukan, tetapi tidak ada tugas yang behasil diganti resourcesnya")
+                file.write("\tLoop kedua dilakukan, tetapi tidak ada tugas yang behasil diganti resourcesnya\n")
             else:
-                file.write(f"Loop kedua menukar resource tugas {loopTwo['node']} dari {loopTwo['before']} menjadi  {loopTwo['nafter']}")
+                file.write(f"\tLoop kedua menukar resource tugas {loopTwo['node']} dari {loopTwo['before']} menjadi  {loopTwo['after']}\n")
 
         if(loopThree['job'] == -1):
-            file.write("Loop ketiga tidak dilakukan")
+            file.write("\tLoop ketiga tidak dilakukan\n")
         else:
             if(loopThree['node'] == -1):
-                file.write("Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan")
+                file.write("\tLoop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan\n")
             else:
-                file.write(f"Loop ketiga memindahkan tugas {loopThree['node']} ke stasiun {loopThree['stasiun']}")
+                file.write(f"\tLoop ketiga memindahkan tugas {loopThree['node']} ke stasiun {loopThree['stasiun']}\n")

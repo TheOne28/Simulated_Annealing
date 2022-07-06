@@ -1,6 +1,5 @@
 from timeit import timeit
 from config import fileCSV, dataInput, Parameter
-from lib.graph import Graph
 from lib.simulatedAnnealing import simulatedAnnealing
 from ioHandler import readFile, writeFileCSV, writeFileObj, writeCommand
 
@@ -14,7 +13,11 @@ def main():
     
     start = timeit()
     best = sa.objectiveFunction()
-    allObjective = [[1,best]]
+    toCompare = best
+    indBest = -1
+    iterasi = 1
+
+    allObjective = [[0,best]]
     allCommand = []
 
     m = 0
@@ -29,13 +32,16 @@ def main():
                 sa.solve(i)
             
             current = sa.objectiveFunction()
-
-            if(current < best):
+            print(current)
+            if(current < toCompare):
+                indBest = iterasi
                 best = current
+                toCompare = current
                 allObjective.append([1,current])
                 allCommand.append([1, sa.command])
             else:
-                if(inProb(T, abs(best - current))):
+                if(inProb(T, abs(toCompare - current))):
+                    toCompare = current
                     allCommand.append([1, sa.command])
                     allObjective.append([1,current])
                 else:
@@ -44,8 +50,10 @@ def main():
                     sa.revertChanges()
             
             n += 1
+            iterasi += 1
             
         T -= (Parameter['ALPHA'] * T)
+        m += 1
 
     
     end = timeit()
@@ -53,6 +61,7 @@ def main():
     writeCommand(allCommand, fileCSV)
     writeFileObj(allObjective, fileCSV)
     print("Waktu yang dibutuhkan", start - end)
+    print("Minimal objective function pada iterasi ke {} dengan nilai {}".format(indBest, best))
 
 if(__name__ == "__main__"):
     main()

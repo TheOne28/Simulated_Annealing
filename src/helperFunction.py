@@ -9,7 +9,7 @@ def validateResources(resource: str, res: dict) -> int:
     else:
         return -1
 
-def validateWaktu(waktu: int, CT: int) -> bool:
+def validateWaktu(waktu: float, CT: float) -> bool:
     return waktu <= CT
 
 def validateStation(stat: int, station: tuple):
@@ -27,11 +27,11 @@ def createGraph(data: dict, precedence: list) -> Graph:
 
     return graph
 
-def inProb(T: int, deltaE: int) -> bool:
+def inProb(T: float, deltaE: float) -> bool:
     r = random()
 
-    print(deltaE)
-    print(T)
+    print("DeltaE", deltaE)
+    print("T", T)
     probFunc = E ** (deltaE / T)
 
     if(probFunc > r):

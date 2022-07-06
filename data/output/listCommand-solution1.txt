@@ -1,0 +1,125 @@
+Iterasi ke 1, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 2, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 3, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 4, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 5, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 6, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 7, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 8, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 9, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 10, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 11, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 12, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 13, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 14, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 15, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 16, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 17, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 18, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 19, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 20, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 21, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 22, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 23, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 24, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4
+Iterasi ke 25, command dipakai
+Command: 
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 4 dari 2 menjadi  H
+	Loop ketiga memindahkan tugas 1 ke stasiun 4

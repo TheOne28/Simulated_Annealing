@@ -8,21 +8,22 @@ from pathlib import Path
 sys.path.insert(0, str(Path(Path(__file__).parent).parent))
 
 from data.input.dataex import dataSource as d1
+from data.input.data1 import dataSource as d2
 
-fileCSV = "initialSolutionEx"
-dataInput = d1
+fileCSV = "solution1"
+dataInput = d2
 
 #Parameter loop
 P = [0.5, 0.5, 0.5]
-A = 1
-B = 1
-C = 1
+A = 2
+B = 2
+C = 2
 #Jumlah Pengulangan
-I = 1
-M = 1
-N = 1
-ALPHA = 1
-T0 = 1
+I = 3
+M = 5
+N = 5
+ALPHA = 0.5
+T0 = 10000
 
 Parameter = {
     'P' : P,

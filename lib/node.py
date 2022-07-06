@@ -37,8 +37,8 @@ class Node:
     def getResource(self) -> int:
         return self.resource
 
-    def getWaktuSisa(self, model) -> int:
-        return self.model[model][1]
+    def getWaktuSisa(self, model) -> float:
+        return float(self.model[model][1])
 
     def addModel(self, key: str, value: list):
         self.model[key] = value

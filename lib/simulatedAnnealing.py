@@ -1,3 +1,4 @@
+from os import stat
 from random import random, choice
 
 from lib.graph import Graph
@@ -212,9 +213,9 @@ class simulatedAnnealing:
 
                 for node in thisNode:
                     if(not node.isPrecedence(r2) and not nodeR2.isPrecedence(node.id)):
-                        temp = node.station
-                        node.station = nodeR2.station
-                        nodeR2.station = temp
+                        temp = node.stasiun
+                        node.stasiun = nodeR2.stasiun
+                        nodeR2.stasiun = temp
 
                         if(self.trySwap(node) and self.trySwap(nodeR2)):
                             self.command.append({
@@ -225,8 +226,8 @@ class simulatedAnnealing:
 
                             return True
                         else:
-                            nodeR2.station = node.station
-                            node.station = temp                        
+                            nodeR2.stasiun = node.stasiun
+                            node.stasiun = temp                        
         return False
 
     #Main job untuk loop two
@@ -256,7 +257,7 @@ class simulatedAnnealing:
             })
             return True
 
-    def countTotalSisa(self, model : str) -> map:
+    def countTotalSisa(self, model : str) -> list:
         sisa = {}
 
         
@@ -272,7 +273,8 @@ class simulatedAnnealing:
                 
             sisa[station] = ct - sum
         
-        return sorted(sisa.values())
+        orderStasiun = sorted(sisa.items(), key= lambda kv: (kv[1], kv[0]))
+        return orderStasiun
 
     #Main job untuk loop three  
     def minimStas(self, stasiun : int) -> bool:
@@ -303,10 +305,17 @@ class simulatedAnnealing:
     def removeUnusedStation(self):
         stations = self.data['stations']
 
+        toPop = -1
         for i in range(len(stations)):
             stas = stations[i]
-            if(len(self.stas[stas]) == 0):
-                stations.pop(i)
+            
+            if(not stas in self.stas.keys()):
+                toPop = i
+        
+        if(toPop != -1):
+            stations.pop(toPop)
+
+        self.data['stations'] = stations
             
 
 
@@ -407,12 +416,13 @@ class simulatedAnnealing:
             totalWaktu = self.countTotalSisa(selectedModel)
 
             while(c < self.param['C']):
-                p = 1
+                p = 0
 
-                success = self.minimStas(p)
+                success = self.minimStas(totalWaktu[p][0])
                     
                 if(success):
                     can = True
+                    self.getByStasiun()
                     self.removeUnusedStation()
                     break
                 else:
