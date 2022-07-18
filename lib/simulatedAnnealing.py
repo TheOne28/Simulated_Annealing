@@ -156,6 +156,10 @@ class simulatedAnnealing:
         return True
 
 
+    def checkPrecendence(self, node1: Node, node2: Node):
+        return node1.isPrecedence(node2.id) or node2.isPrecedence(node1.id)
+
+
     def setSisa(self):
         stations = self.data['stations']
 
@@ -212,7 +216,7 @@ class simulatedAnnealing:
                 thisNode = self.stas[key]
 
                 for node in thisNode:
-                    if(not node.isPrecedence(r2) and not nodeR2.isPrecedence(node.id)):
+                    if(not self.checkPrecendence(node, nodeR2)):
                         temp = node.stasiun
                         node.stasiun = nodeR2.stasiun
                         nodeR2.stasiun = temp
@@ -281,23 +285,32 @@ class simulatedAnnealing:
         this = self.stas[stasiun]
         idThis = []
 
+
         for node in this:
-            idThis.append(node.getId())
+            idThis.append(node.id)
         
 
         for node in self.allNode:
-            if(node.getId() not  in idThis):
-                before = node.stasiun
-                node.stasiun = stasiun
-                if(self.trySwap(node)):
-                    self.command.append({
-                        "job" : 3,
-                        "node" : node.id,
-                        "stasiun" : stasiun,
-                    })
-                    return True
-                else:
-                    node.stasiun = before
+            if(node.getId() not in idThis):
+                
+                can = True
+                for check in this:
+                    if(self.checkPrecendence(node, check)):
+                        can = False
+                        break
+                
+                if(can):
+                    before = node.stasiun
+                    node.stasiun = stasiun
+                    if(self.trySwap(node)):
+                        self.command.append({
+                            "job" : 3,
+                            "node" : node.id,
+                            "stasiun" : stasiun,
+                        })
+                        return True
+                    else:
+                        node.stasiun = before
 
         return False
 
@@ -319,15 +332,12 @@ class simulatedAnnealing:
             
 
 
-    def solve(self, mode):
-        if(mode == 1):
-            self.loopOne()
-        elif(mode == 2):
-            self.loopTwo()
-        elif(mode == 3):
-            self.loopThree()
-        else:
-            raise Exception("Terdapat kesalahan mode")
+    def solve(self):
+        self.command = []
+
+        self.loopOne()
+        self.loopTwo()
+        self.loopThree()
 
     def loopOne(self):
         r1 = random()

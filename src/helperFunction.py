@@ -32,7 +32,11 @@ def inProb(T: float, deltaE: float) -> bool:
 
     print("DeltaE", deltaE)
     print("T", T)
-    probFunc = E ** (deltaE / T)
+
+    try:
+        probFunc = E ** (deltaE / T)
+    except OverflowError:
+        probFunc = 1
 
     if(probFunc > r):
         return True

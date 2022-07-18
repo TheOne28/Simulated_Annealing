@@ -1,4 +1,5 @@
-from timeit import timeit
+from time import time
+from copy import deepcopy
 from config import fileCSV, dataInput, Parameter
 from lib.simulatedAnnealing import simulatedAnnealing
 from ioHandler import readFile, writeFileCSV, writeFileObj, writeCommand
@@ -11,9 +12,9 @@ def main():
     graph = createGraph(data, dataInput['precedences'])
     sa = simulatedAnnealing(graph, dataInput, Parameter)
     
-    start = timeit()
+    start = time()
     best = sa.objectiveFunction()
-    toCompare = best
+    toCompare = deepcopy(best)
     indBest = -1
     iterasi = 1
 
@@ -28,20 +29,19 @@ def main():
         n = 0
 
         while(n < Parameter['N']):
-            for i in range(1, 4):
-                sa.solve(i)
-            
+            sa.solve()
+
             current = sa.objectiveFunction()
-            print(current)
+            # print(current)
             if(current < toCompare):
                 indBest = iterasi
-                best = current
-                toCompare = current
+                best = deepcopy(current)
+                toCompare = deepcopy(current)
                 allObjective.append([1,current])
                 allCommand.append([1, sa.command])
             else:
                 if(inProb(T, abs(toCompare - current))):
-                    toCompare = current
+                    toCompare = deepcopy(current)
                     allCommand.append([1, sa.command])
                     allObjective.append([1,current])
                 else:
@@ -56,11 +56,12 @@ def main():
         m += 1
 
     
-    end = timeit()
+    end = time()
+
     writeFileCSV(sa, fileCSV)
     writeCommand(allCommand, fileCSV)
     writeFileObj(allObjective, fileCSV)
-    print("Waktu yang dibutuhkan", start - end)
+    print("Waktu yang dibutuhkan", end - start)
     print("Minimal objective function pada iterasi ke {} dengan nilai {}".format(indBest, best))
 
 if(__name__ == "__main__"):

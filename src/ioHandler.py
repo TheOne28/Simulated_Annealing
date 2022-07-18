@@ -92,9 +92,9 @@ def writeFileObj(allObj: list, suffix: str):
 
     for i in range(len(allObj)):
         if(allObj[i][0] == -1):
-            file.write(f"Iterasi ke {i + 1}: Tidak dipakai\nNilai yang didapatkan: {allObj[i][1]}\n")
+            file.write(f"Iterasi ke {i}: Tidak dipakai\nNilai yang didapatkan: {allObj[i][1]}\n")
         else:
-            file.write(f"Iterasi ke {i + 1}: {allObj[i][1]}\n")
+            file.write(f"Iterasi ke {i}: {allObj[i][1]}\n")
 
 def writeCommand(allCommand: list, suffix: str):
     filePath = str(Path(Path(__file__).parent).parent) + "\\data\\output\\" + "listCommand-" + suffix + '.txt'
