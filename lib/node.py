@@ -5,6 +5,7 @@ class Node:
         self.id = id
         self.connection = []
         self.precedence = []
+        self.stasBefore = []
         self.stasiun = stasiun
         self.model = model
         self.resource = resource
@@ -43,6 +44,16 @@ class Node:
     def addModel(self, key: str, value: list):
         self.model[key] = value
 
+    def updateStasBefore(self):
+        newStas = []
+        
+        for node in self.precedence:
+            if(node.stasiun not in newStas):
+                newStas.append(node.stasiun)
+        
+        self.stasBefore = newStas
+
+
     def addConnection(self, friendNode):
         self.connection.append(friendNode)
 
@@ -50,8 +61,10 @@ class Node:
             for precend in self.precedence:
                 friendNode.precedence.append(precend)
         
-        friendNode.precedence.append(self.id)
-    
+        friendNode.precedence.append(self)
+
+        friendNode.updateStasBefore()
+
     def isParent(self, listNode: list) -> bool:
 
         for node in listNode:
@@ -61,7 +74,11 @@ class Node:
         return True
     
     def isPrecedence(self, id: int) -> bool:
-        return id in self.precedence
+        for node in self.precedence:
+            if(node.id == id):
+                return True
+        
+        return False
 
     def toList(self) -> list:
         val = []

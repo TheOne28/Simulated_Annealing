@@ -299,6 +299,11 @@ class simulatedAnnealing:
                         can = False
                         break
                 
+                for stas in node.stasBefore:
+                    if(stas > stasiun):
+                        can = False
+                        break
+
                 if(can):
                     before = node.stasiun
                     node.stasiun = stasiun
@@ -308,6 +313,7 @@ class simulatedAnnealing:
                             "node" : node.id,
                             "stasiun" : stasiun,
                         })
+                        node.updateStasBefore()
                         return True
                     else:
                         node.stasiun = before
