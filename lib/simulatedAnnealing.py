@@ -219,21 +219,32 @@ class simulatedAnnealing:
                     if(not self.checkPrecendence(node, nodeR2)):
                         can = True
 
-                        temp = node.stasiun
-                        node.stasiun = nodeR2.stasiun
-                        nodeR2.stasiun = temp
+                        for stas in node.stasBefore:
+                            if(stas > nodeR2.stasiun):
+                                can = False
+                                break
+                        
+                        for stas in nodeR2.stasBefore:
+                            if(stas > node.stasiun):
+                                can = False
+                                break
+                        
+                        if(can):
+                            temp = node.stasiun
+                            node.stasiun = nodeR2.stasiun
+                            nodeR2.stasiun = temp
 
-                        if(self.trySwap(node) and self.trySwap(nodeR2)):
-                            self.command.append({
-                                "job" : 1,
-                                "node1" : node.id,
-                                "node2": nodeR2.id
-                            })
+                            if(self.trySwap(node) and self.trySwap(nodeR2)):
+                                self.command.append({
+                                    "job" : 1,
+                                    "node1" : node.id,
+                                    "node2": nodeR2.id
+                                })
 
-                            return True
-                        else:
-                            nodeR2.stasiun = node.stasiun
-                            node.stasiun = temp                        
+                                return True
+                            else:
+                                nodeR2.stasiun = node.stasiun
+                                node.stasiun = temp                        
         return False
 
     #Main job untuk loop two
