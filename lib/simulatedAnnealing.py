@@ -217,6 +217,8 @@ class simulatedAnnealing:
 
                 for node in thisNode:
                     if(not self.checkPrecendence(node, nodeR2)):
+                        can = True
+
                         temp = node.stasiun
                         node.stasiun = nodeR2.stasiun
                         nodeR2.stasiun = temp
@@ -241,9 +243,11 @@ class simulatedAnnealing:
         
         s1 = choice(list(self.data['resources'].keys()))
 
+        s1 = self.data['resources'][s1]
+
         node4 : Node = self.graph.findNode(r4)
 
-        if(node4.getResource() == s1):
+        if(node4.resource == s1):
             return False
         else:
             before = node4.resource
