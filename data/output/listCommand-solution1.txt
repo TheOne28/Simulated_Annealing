@@ -1,125 +1,125 @@
 Iterasi ke 1, command dipakai
 Command: 
-	Loop pertama menukar tugas 6 dengan tugas 8
+	Loop pertama tidak dilakukan
 	Loop kedua tidak dilakukan
 	Loop ketiga tidak dilakukan
 Iterasi ke 2, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
-	Loop kedua menukar resource tugas 1 dari 3 menjadi  1
+	Loop pertama menukar tugas 5 dengan tugas 7
+	Loop kedua tidak dilakukan
 	Loop ketiga tidak dilakukan
 Iterasi ke 3, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
-	Loop ketiga tidak dilakukan
+	Loop pertama menukar tugas 6 dengan tugas 8
+	Loop kedua menukar resource tugas 6 dari 1 menjadi  2
+	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 4, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
+	Loop pertama menukar tugas 6 dengan tugas 8
 	Loop kedua tidak dilakukan
-	Loop ketiga memindahkan tugas 7 ke stasiun 4
+	Loop ketiga tidak dilakukan
 Iterasi ke 5, command dipakai
 Command: 
-	Loop pertama menukar tugas 8 dengan tugas 7
-	Loop kedua menukar resource tugas 4 dari 2 menjadi  3
-	Loop ketiga memindahkan tugas 7 ke stasiun 4
+	Loop pertama tidak dilakukan
+	Loop kedua menukar resource tugas 2 dari 2 menjadi  1
+	Loop ketiga tidak dilakukan
 Iterasi ke 6, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
-	Loop kedua menukar resource tugas 5 dari 2 menjadi  3
+	Loop pertama tidak dilakukan
+	Loop kedua menukar resource tugas 3 dari 2 menjadi  1
 	Loop ketiga tidak dilakukan
 Iterasi ke 7, command dipakai
 Command: 
 	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
+	Loop kedua menukar resource tugas 3 dari 1 menjadi  3
 	Loop ketiga tidak dilakukan
 Iterasi ke 8, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
+	Loop pertama menukar tugas 6 dengan tugas 8
 	Loop kedua tidak dilakukan
 	Loop ketiga tidak dilakukan
 Iterasi ke 9, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
-	Loop kedua menukar resource tugas 2 dari 2 menjadi  1
+	Loop pertama menukar tugas 5 dengan tugas 9
+	Loop kedua tidak dilakukan
 	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 10, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
-	Loop kedua tidak dilakukan
+	Loop pertama tidak dilakukan
+	Loop kedua menukar resource tugas 5 dari 2 menjadi  1
 	Loop ketiga tidak dilakukan
 Iterasi ke 11, command dipakai
 Command: 
 	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
-	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
+	Loop kedua menukar resource tugas 8 dari 2 menjadi  3
+	Loop ketiga tidak dilakukan
 Iterasi ke 12, command dipakai
 Command: 
 	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
+	Loop kedua menukar resource tugas 9 dari 2 menjadi  3
 	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 13, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
-	Loop kedua menukar resource tugas 1 dari 1 menjadi  2
+	Loop pertama tidak dilakukan
+	Loop kedua tidak dilakukan
 	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 14, command dipakai
 Command: 
 	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
+	Loop kedua menukar resource tugas 2 dari 1 menjadi  2
 	Loop ketiga tidak dilakukan
 Iterasi ke 15, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
+	Loop pertama menukar tugas 6 dengan tugas 5
+	Loop kedua menukar resource tugas 6 dari 1 menjadi  2
 	Loop ketiga tidak dilakukan
 Iterasi ke 16, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
+	Loop pertama tidak dilakukan
 	Loop kedua tidak dilakukan
 	Loop ketiga tidak dilakukan
 Iterasi ke 17, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
-	Loop kedua menukar resource tugas 1 dari 2 menjadi  3
+	Loop pertama menukar tugas 5 dengan tugas 6
+	Loop kedua tidak dilakukan
 	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 18, command dipakai
 Command: 
 	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
-	Loop ketiga tidak dilakukan
+	Loop kedua menukar resource tugas 1 dari 3 menjadi  1
+	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 19, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
-	Loop kedua tidak dilakukan
+	Loop pertama menukar tugas 5 dengan tugas 9
+	Loop kedua menukar resource tugas 8 dari 3 menjadi  1
 	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 20, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
-	Loop kedua tidak dilakukan
+	Loop pertama menukar tugas 5 dengan tugas 6
+	Loop kedua menukar resource tugas 6 dari 2 menjadi  3
 	Loop ketiga tidak dilakukan
 Iterasi ke 21, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
-	Loop kedua menukar resource tugas 3 dari 2 menjadi  1
+	Loop pertama menukar tugas 7 dengan tugas 8
+	Loop kedua tidak dilakukan
 	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
 Iterasi ke 22, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
+	Loop pertama menukar tugas 5 dengan tugas 6
 	Loop kedua tidak dilakukan
-	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
+	Loop ketiga tidak dilakukan
 Iterasi ke 23, command dipakai
 Command: 
-	Loop pertama tidak dilakukan
-	Loop kedua menukar resource tugas 3 dari 1 menjadi  3
-	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
+	Loop pertama menukar tugas 5 dengan tugas 6
+	Loop kedua tidak dilakukan
+	Loop ketiga tidak dilakukan
 Iterasi ke 24, command dipakai
 Command: 
-	Loop pertama dilakukan, tetapi tidak ada tugas yang berhasil ditukar
-	Loop kedua menukar resource tugas 3 dari 3 menjadi  2
-	Loop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan
+	Loop pertama tidak dilakukan
+	Loop kedua menukar resource tugas 7 dari 2 menjadi  1
+	Loop ketiga tidak dilakukan
 Iterasi ke 25, command dipakai
 Command: 
 	Loop pertama tidak dilakukan
-	Loop kedua tidak dilakukan
+	Loop kedua menukar resource tugas 6 dari 3 menjadi  2
 	Loop ketiga tidak dilakukan

@@ -82,9 +82,10 @@ class Node:
 
     def toList(self) -> list:
         val = []
+        res = {1:"R", 2: "H", 3:"HRC"}
 
         for model in self.model.keys():
-            row = [self.stasiun, self.id, model, self.resource, self.model[model][0], self.model[model][1]]
+            row = [self.stasiun, self.id, model, res[self.resource], self.model[model][0], self.model[model][1]]
             val.append(row)
         
         return val

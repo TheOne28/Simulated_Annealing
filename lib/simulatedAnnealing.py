@@ -14,13 +14,9 @@ class simulatedAnnealing:
         self.data = data
         self.param = param
         self.command = []
+        self.removedStasiun = []
 
         self.getByStasiun()
-
-        # for key in self.stas.keys():
-        #     print("Stasiun", key)
-        #     for node in self.stas[key]:
-        #         print(node.id)
 
         self.setSisa()
 
@@ -71,8 +67,8 @@ class simulatedAnnealing:
             raise Exception("Terdapat kesalahan pada graf untuk stasiun {}, tidak ada parent Node".format(station))
 
         for parent in allParent:
-            resource = parent.getResource()
-            allModel = parent.getModel()
+            resource = parent.resource
+            allModel = parent.model
     
             save = True
 
@@ -178,6 +174,7 @@ class simulatedAnnealing:
             return True
         else:
             for resource in allResource.keys():
+                resource = allResource[resource]
                 if(resource != resourceBefore):
                     node.resource = resource
 
@@ -216,7 +213,7 @@ class simulatedAnnealing:
                 thisNode = self.stas[key]
 
                 for node in thisNode:
-                    if(not self.checkPrecendence(node, nodeR2)):
+                    if(not self.checkPrecendence(node, nodeR2) and node.id != r2):
                         can = True
 
                         for stas in node.stasBefore:
@@ -255,7 +252,6 @@ class simulatedAnnealing:
         s1 = choice(list(self.data['resources'].keys()))
 
         s1 = self.data['resources'][s1]
-
         node4 : Node = self.graph.findNode(r4)
 
         if(node4.resource == s1):
@@ -318,6 +314,23 @@ class simulatedAnnealing:
                     if(stas > stasiun):
                         can = False
                         break
+                
+                stas = node.stasiun
+                stasiun = 1
+
+                while(stasiun < stas):
+                    task = self.stas[stasiun]
+
+                    for check in task:
+                        if(node.id in check.precedence):
+                            can = False
+                            break
+                    
+                    if(not can):
+                        break
+
+                    stasiun += 1
+                
 
                 if(can):
                     before = node.stasiun
@@ -344,6 +357,8 @@ class simulatedAnnealing:
             stas = stations[i]
             
             if(not stas in self.stas.keys()):
+                self.removedStasiun.append(stas)
+                self.command[3]["delete"] = stas
                 toPop = i
         
         if(toPop != -1):
@@ -549,6 +564,7 @@ class simulatedAnnealing:
         if(stasiun not in self.data['stations']):
             self.data['stations'].append(stasiun)
         
+        self.removedStasiun.pop(len(self.removedStasiun) - 1)
         before = node.stasiun
         node.stasiun = stasiun
 
