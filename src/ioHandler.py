@@ -136,3 +136,6 @@ def writeCommand(allCommand: list, suffix: str):
                 file.write("\tLoop ketiga dilakukan, tetapi tidak ada minimasi stasiun yang berhasil dilakukan\n")
             else:
                 file.write(f"\tLoop ketiga memindahkan tugas {loopThree['node']} ke stasiun {loopThree['stasiun']}\n")
+
+            if(allCommand[i][0] == 1 and "delete" in loopThree.keys()):
+                file.write(f"\tLoop ketiga menghapus stasiun {loopThree['delete']}")

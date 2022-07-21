@@ -62,6 +62,14 @@ def main():
     writeCommand(allCommand, fileCSV)
     writeFileObj(allObjective, fileCSV)
     print("Waktu yang dibutuhkan", end - start)
+    print("Ada {} stasiun yang dihapus".format(len(sa.removedStasiun)))
+
+    if(len(sa.removedStasiun) != 0):
+        print("Stasiun yang dihapus: ")
+
+        for i in range(len(sa.removedStasiun)):
+            print(sa.removedStasiun[i], end="\n")
+
     print("Minimal objective function pada iterasi ke {} dengan nilai {}".format(indBest, best))
 
 if(__name__ == "__main__"):
