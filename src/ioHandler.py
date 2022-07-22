@@ -113,6 +113,8 @@ def writeCommand(allCommand: list, suffix: str):
         loopTwo = allCommand[i][1][1]
         loopThree = allCommand[i][1][2]
 
+        res = {1:"R", 2: "H", 3:"HRC"}
+
         if(loopOne['job'] == -1):
             file.write("\tLoop pertama tidak dilakukan\n")
         else:
@@ -127,7 +129,7 @@ def writeCommand(allCommand: list, suffix: str):
             if(loopTwo['node'] == -1):
                 file.write("\tLoop kedua dilakukan, tetapi tidak ada tugas yang behasil diganti resourcesnya\n")
             else:
-                file.write(f"\tLoop kedua menukar resource tugas {loopTwo['node']} dari {loopTwo['before']} menjadi  {loopTwo['after']}\n")
+                file.write(f"\tLoop kedua menukar resource tugas {loopTwo['node']} dari {res[loopTwo['before']]} menjadi  {res[loopTwo['after']]}\n")
 
         if(loopThree['job'] == -1):
             file.write("\tLoop ketiga tidak dilakukan\n")
@@ -138,4 +140,4 @@ def writeCommand(allCommand: list, suffix: str):
                 file.write(f"\tLoop ketiga memindahkan tugas {loopThree['node']} ke stasiun {loopThree['stasiun']}\n")
 
             if(allCommand[i][0] == 1 and "delete" in loopThree.keys()):
-                file.write(f"\tLoop ketiga menghapus stasiun {loopThree['delete']}")
+                file.write(f"\tLoop ketiga menghapus stasiun {loopThree['delete']}\n")

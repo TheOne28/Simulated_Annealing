@@ -1,3 +1,4 @@
+from operator import rshift
 from os import stat
 from random import random, choice
 
@@ -6,7 +7,7 @@ from lib.node import Node
 
 class simulatedAnnealing:
     def __init__(self, graph: Graph, data: map, param: map) -> None:
-        if(graph == None or data == None or     param == None):
+        if(graph == None or data == None or param == None):
             raise Exception("Terjadi kesalahan input param atau processing graph")
 
         self.graph = graph
@@ -39,18 +40,24 @@ class simulatedAnnealing:
                 parent.append(node)
         return parent
     
-    def findMinimum(self, before, resource, model, mapping, mode) -> int:
-        minimum = before
+    def findMinimum(self, before, resource, model, mapping) -> int:
         
-        if(mode == 1):
-            if(resource == 1 and "1{}".format(model) in mapping.keys()):
-                minimum = min(minimum, mapping["1{}".format(model)])
-            elif(resource == 2 and "2{}".format(model) in mapping.keys()):
-                minimum = min(minimum, mapping["2{}".format(model)])
+        if(resource == 1):
+            if("1{}".format(model) in mapping.keys()):
+                minimum = min(before, mapping["1{}".format(model)])
+            else: 
+                minimum = before
+        elif(resource == 2):
+            if("2{}".format(model) in mapping.keys()):
+                minimum = min(before, mapping["2{}".format(model)])
+            else:
+                minimum = before
         else:
-            if(resource == 1 and "1{}".format(model) in mapping.keys()):
+            minimum = before
+
+            if("1{}".format(model) in mapping.keys()):
                 minimum = min(minimum, mapping["1{}".format(model)])
-            if(resource == 2 and "2{}".format(model) in mapping.keys()):
+            if("2{}".format(model) in mapping.keys()):
                 minimum = min(minimum, mapping["2{}".format(model)])
 
         return minimum
@@ -74,7 +81,7 @@ class simulatedAnnealing:
 
             if(resource == 1 or resource == 2):
                 for model in allModel.keys():
-                    minimum = self.findMinimum(ct, resource, model, mapping, 1)
+                    minimum = self.findMinimum(ct, resource, model, mapping)
 
                     if(minimum < allModel[model][0]):
                         save = False
@@ -85,7 +92,7 @@ class simulatedAnnealing:
 
             else:
                 for model in allModel.keys():
-                    minimum = self.findMinimum(ct, resource, model, mapping, 2)
+                    minimum = self.findMinimum(ct, resource, model, mapping)
                     mapping["1{}".format(resource, model)] = minimum - allModel[model][0]
                     mapping["2{}".format(resource, model)] = minimum - allModel[model][0]
                     
@@ -123,7 +130,7 @@ class simulatedAnnealing:
                     if(resource == 1 or resource == 2):
                         for model in allModel.keys():
                             checkbef = before.getWaktuSisa(model)
-                            minimum = self.findMinimum(checkbef, resource, model, mapping, 1)      
+                            minimum = self.findMinimum(checkbef, resource, model, mapping)      
 
                             if(minimum < allModel[model][0]):
                                 save = False
@@ -134,7 +141,7 @@ class simulatedAnnealing:
                         for model in allModel.keys():
                             checkbef = before.getWaktuSisa(model)
 
-                            minimum = self.findMinimum(checkbef, resource, model, mapping, 2)
+                            minimum = self.findMinimum(checkbef, resource, model, mapping)
 
                             if(minimum < allModel[model][0]):
                                 save = False
@@ -193,23 +200,24 @@ class simulatedAnnealing:
 
         nodeR2 : Node = self.graph.findNode(r2) 
 
-        stas = nodeR2.stasiun
+        sts = nodeR2.stasiun
 
         start = -1
         end = -1
 
-        if(stas > 3):
-            start = stas - 2
+        if(sts > 3):
+            start = sts - 2
         else:
-            start = max(stas - 2, 1)
+            start = max(sts - 2, 1)
         
-        if(stas < len(self.data['stations']) - 2):
-            end = stas - 1
+        if(sts < len(self.data['stations']) - 2):
+            end = sts - 1
         else:
-            end = min(stas +  2, len(self.data['stations']))
+            end = min(sts +  2, len(self.data['stations']))
 
         for key in self.stas.keys():
-            if(key != stas and key >= start and key <= end):
+            if(key != sts and key >= start and key <= end):
+                
                 thisNode = self.stas[key]
 
                 for node in thisNode:
@@ -226,12 +234,25 @@ class simulatedAnnealing:
                                 can = False
                                 break
                         
+
+                        for each in self.allNode:
+                            if(node in each.precedence):
+                                if(each.stasiun < nodeR2.stasiun):
+                                    can = False
+                                    break
+                                
+                            if(nodeR2 in each.precedence):
+                                if(each.stasiun < node.stasiun):
+                                    can = False
+                                    break
+
                         if(can):
                             temp = node.stasiun
                             node.stasiun = nodeR2.stasiun
                             nodeR2.stasiun = temp
 
                             if(self.trySwap(node) and self.trySwap(nodeR2)):
+
                                 self.command.append({
                                     "job" : 1,
                                     "node1" : node.id,
@@ -299,7 +320,6 @@ class simulatedAnnealing:
 
         for node in this:
             idThis.append(node.id)
-        
 
         for node in self.allNode:
             if(node.getId() not in idThis):
@@ -316,10 +336,10 @@ class simulatedAnnealing:
                         break
                 
                 stas = node.stasiun
-                stasiun = 1
+                current = 1
 
-                while(stasiun < stas):
-                    task = self.stas[stasiun]
+                while(current < stas):
+                    task = self.stas[current]
 
                     for check in task:
                         if(node.id in check.precedence):
@@ -329,7 +349,7 @@ class simulatedAnnealing:
                     if(not can):
                         break
 
-                    stasiun += 1
+                    current += 1
                 
 
                 if(can):
@@ -358,7 +378,7 @@ class simulatedAnnealing:
             
             if(not stas in self.stas.keys()):
                 self.removedStasiun.append(stas)
-                self.command[3]["delete"] = stas
+                self.command[2]["delete"] = stas
                 toPop = i
         
         if(toPop != -1):

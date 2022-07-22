@@ -9,9 +9,10 @@ sys.path.insert(0, str(Path(Path(__file__).parent).parent))
 
 from data.input.dataex import dataSource as d1
 from data.input.data1 import dataSource as d2
+from data.input.data2 import dataSource as d3
 
-fileCSV = "solution1"
-dataInput = d2
+fileCSV = "solution2"
+dataInput = d3
 
 #Parameter loop
 P = [0.5, 0.5, 0.5]

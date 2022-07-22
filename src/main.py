@@ -15,7 +15,7 @@ def main():
     start = time()
     best = sa.objectiveFunction()
     toCompare = deepcopy(best)
-    indBest = -1
+    indBest = 0
     iterasi = 1
 
     allObjective = [[0,best]]
@@ -34,8 +34,11 @@ def main():
             current = sa.objectiveFunction()
             # print(current)
             if(current < toCompare):
-                indBest = iterasi
-                best = deepcopy(current)
+                
+                if(current < best):
+                    indBest = iterasi
+                    best = deepcopy(current)
+                    
                 toCompare = deepcopy(current)
                 allObjective.append([1,current])
                 allCommand.append([1, sa.command])

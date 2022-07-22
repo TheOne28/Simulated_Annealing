@@ -30,8 +30,8 @@ def createGraph(data: dict, precedence: list) -> Graph:
 def inProb(T: float, deltaE: float) -> bool:
     r = random()
 
-    print("DeltaE", deltaE)
-    print("T", T)
+    # print("DeltaE", deltaE)
+    # print("T", T)
 
     try:
         probFunc = E ** (deltaE / T)
