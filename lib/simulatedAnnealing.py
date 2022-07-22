@@ -35,9 +35,14 @@ class simulatedAnnealing:
     def getAllParent(self, allNode) -> list:
         parent = []
 
+        # print("L")
+        # for each in allNode:
+        #     print(each.id)
+
         for node in allNode:
             if(node.isParent(allNode)):
                 parent.append(node)
+
         return parent
     
     def findMinimum(self, before, resource, model, mapping) -> int:
@@ -69,7 +74,15 @@ class simulatedAnnealing:
         sisa = {}
 
         allParent = self.getAllParent(listNode)
-            
+        
+        # print()
+        # print("S")
+        # print(station)
+
+        # for each in allParent:
+        #     print(each.id)
+
+
         if(len(allParent) == 0):
             raise Exception("Terdapat kesalahan pada graf untuk stasiun {}, tidak ada parent Node".format(station))
 
@@ -93,8 +106,8 @@ class simulatedAnnealing:
             else:
                 for model in allModel.keys():
                     minimum = self.findMinimum(ct, resource, model, mapping)
-                    mapping["1{}".format(resource, model)] = minimum - allModel[model][0]
-                    mapping["2{}".format(resource, model)] = minimum - allModel[model][0]
+                    mapping["1{}".format(model)] = minimum - allModel[model][0]
+                    mapping["2{}".format(model)] = minimum - allModel[model][0]
                     
                     if(minimum < allModel[model][0]):
                         save = False
@@ -166,6 +179,7 @@ class simulatedAnnealing:
     def setSisa(self):
         stations = self.data['stations']
 
+        self.getByStasiun()
         for station in stations:
             self.sisaEachStation(station, self.stas[station])
             

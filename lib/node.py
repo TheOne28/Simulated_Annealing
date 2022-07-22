@@ -68,7 +68,7 @@ class Node:
     def isParent(self, listNode: list) -> bool:
 
         for node in listNode:
-            if(node.id in self.precedence):
+            if(node in self.precedence):
                 return False
         
         return True
@@ -102,4 +102,7 @@ class Node:
             print("Waktu: {}".format(self.model[key][0]))
             print("Waktu Sisa: {}".format(self.model[key][1]))
         
+        # print("Precendence: ")
+        # for precend in self.precedence:
+        #     print(precend.id)
         print("\n")
