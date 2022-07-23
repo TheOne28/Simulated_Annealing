@@ -190,6 +190,7 @@ class simulatedAnnealing:
 
         
         self.getByStasiun()
+
         
         if(self.sisaEachStation(node.stasiun, self.stas[node.stasiun])):
             return True
@@ -199,11 +200,18 @@ class simulatedAnnealing:
                 if(resource != resourceBefore):
                     node.resource = resource
 
+                    for each in self.data['model']:
+                        combine = (node.id, each)
+                        node.model[each][0] = self.data['timetaken'][combine][node.resource - 1]
+                    
                     if(self.sisaEachStation(node.stasiun, self.stas[node.stasiun])):
                         return True
             
             node.resource = resourceBefore
-                
+            
+            for each in self.data['model']:
+                        combine = (node.id, each)
+                        node.model[each][0] = self.data['timetaken'][combine][node.resource - 1]
             return False
 
 
@@ -335,9 +343,17 @@ class simulatedAnnealing:
         else:
             before = node4.resource
             node4.resource = s1
+            
+            for each in self.data['model']:
+                combine = (node4.id, each)
+                node4.model[each][0] = self.data['timetaken'][combine][node4.resource - 1]
 
             if(not self.sisaEachStation(node4.stasiun, self.stas[node4.stasiun])):
                 node4.resource = before
+
+                for each in self.data['model']:
+                    combine = (node4.id, each)
+                    node4.model[each][0] = self.data['timetaken'][combine][node4.resource - 1]
                 return False
             
             self.command.append({

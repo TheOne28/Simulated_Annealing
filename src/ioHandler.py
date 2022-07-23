@@ -55,7 +55,7 @@ def readFile(filename: str, config: dict) -> dict | None:
             if(id in dictNode.keys()):
                 res = dictNode[id].getResource()
                 if(resource != res):
-                    raise("Masukan model tidak valid pada element dengan ID {}".format(id))
+                    raise Exception("Masukan model tidak valid pada element dengan ID {}".format(id))
                 
                 dictNode[id].addModel(model,  [waktu])
             else:
