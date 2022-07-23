@@ -586,11 +586,22 @@ class simulatedAnnealing:
         minimum = self.data['ct']
 
         for node in self.allNode:
-            minimum = min(minimum, node.getWaktuSisa('X'), node.getWaktuSisa('Y'))
-        
+            
+            for model in self.data['model']:
+                key = f"{node.stasiun}{model}"
+                if(key in self.allCT.keys()):
+                    self.allCT[key][0] = min(self.allCT[key][0], node.getWaktuSisa(model))
+                    self.allCT[key][1] = self.data['ct'] - self.allCT[key][0] 
+                else:
+                    self.allCT[key] = [node.getWaktuSisa(model)]
+                    self.allCT[key].append(self.data['ct'] - self.allCT[key][0])
+
+                minimum = min(minimum, node.getWaktuSisa(model))
+
         return self.data['ct'] - minimum
 
     def objectiveFunction(self):
+        self.allCT = {}
         alpha, ro, b2, b3 = self.countRes()
 
         # print("alpha ", alpha)
@@ -603,10 +614,10 @@ class simulatedAnnealing:
         d = self.data['d']
 
         #Ini ct belum dicari
-        tau = self.findTau()
+        self.tau = self.findTau()
         
         investasi = ci[0] * alpha + ci[1] * ro
-        operasional = (co[0] * alpha + co[1] * ro) * d * tau
+        operasional = (co[0] * alpha + co[1] * ro) * d * self.tau
         val = investasi + operasional - b2 -  b3
 
         return val

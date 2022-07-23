@@ -1,8 +1,10 @@
 from time import time
 from copy import deepcopy
+
+from nbformat import write
 from config import fileCSV, dataInput, Parameter
 from lib.simulatedAnnealing import simulatedAnnealing
-from ioHandler import readFile, writeFileCSV, writeFileObj, writeCommand
+from ioHandler import readFile, writeFileCSV, writeFileObj, writeCommand, writeCT
 
 from helperFunction import createGraph, inProb
 
@@ -33,12 +35,11 @@ def main():
             sa.solve()
 
             current = sa.objectiveFunction()
-            # print(current)
             if(current < toCompare):
                 
                 if(current < best):
                     indBest = iterasi
-                    bestSa = deepcopy(sa)
+                    bestSA = deepcopy(sa)
                     best = deepcopy(current)
                     
                 toCompare = deepcopy(current)
@@ -66,6 +67,7 @@ def main():
     writeFileCSV(bestSA, fileCSV)
     writeCommand(allCommand, fileCSV)
     writeFileObj(allObjective, fileCSV)
+    writeCT(bestSA, fileCSV)
     print("Waktu yang dibutuhkan", end - start)
     print("Ada {} stasiun yang dihapus".format(len(sa.removedStasiun)))
 

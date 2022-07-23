@@ -65,7 +65,6 @@ def readFile(filename: str, config: dict) -> dict | None:
     
     return dictNode
 
-#Belum dipanggil di main
 def writeFileCSV(sa: simulatedAnnealing, suffix: str):
     filePath = str(Path(Path(__file__).parent).parent) + "\\data\\output\\" + "finalSolution-" + suffix + '.csv'
     header = ['Station', 'Element', 'Model', 'Resource', 'Waktu', 'Waktu Sisa']
@@ -141,3 +140,14 @@ def writeCommand(allCommand: list, suffix: str):
 
             if(allCommand[i][0] == 1 and "delete" in loopThree.keys()):
                 file.write(f"\tLoop ketiga menghapus stasiun {loopThree['delete']}\n")
+
+
+def writeCT(sa: simulatedAnnealing, suffix : str):
+    filePath = str(Path(Path(__file__).parent).parent) + "\\data\\output\\" + "listCT-" + suffix + '.txt'
+
+    file = open(filePath, 'w')
+
+    file.write(f"TAU: {sa.tau}\n")
+
+    for key in sa.allCT.keys():
+        file.write(f"Stasiun {key[0]} Model {key[1]}: {sa.allCT[key][1]}\n")
