@@ -232,30 +232,48 @@ class simulatedAnnealing:
         for key in self.stas.keys():
             if(key != sts and key >= start and key <= end):
                 
+                # print("k")
+                # print(sts)
+                # print(key)
+                # print("")
                 thisNode = self.stas[key]
+                
+                # print("N")
+                # for node in thisNode:
+
+                #     print(node.id, end = " ")
 
                 for node in thisNode:
                     if(not self.checkPrecendence(node, nodeR2) and node.id != r2):
+                        # print("Y")
+                                        
+                        # for inKey in self.stas.keys():
+                        #     print(inKey)
+                        #     for masing in self.stas[inKey]:
+                        #         print(masing.id, end = " ")
+                        #     print()
+                        
+                        # print()
                         can = True
 
-                        for stas in node.stasBefore:
-                            if(stas > nodeR2.stasiun):
+                        for stat in node.stasBefore:
+                            if(stat > nodeR2.stasiun):
                                 can = False
                                 break
                         
-                        for stas in nodeR2.stasBefore:
-                            if(stas > node.stasiun):
+                        for stat in nodeR2.stasBefore:
+                            if(stat > node.stasiun):
                                 can = False
                                 break
                         
 
                         for each in self.allNode:
-                            if(node in each.precedence):
+                            if(each.isPrecedence(node.id)):
                                 if(each.stasiun < nodeR2.stasiun):
                                     can = False
                                     break
                                 
-                            if(nodeR2 in each.precedence):
+                            if(each.isPrecedence(nodeR2.id)):
                                 if(each.stasiun < node.stasiun):
                                     can = False
                                     break
@@ -265,7 +283,26 @@ class simulatedAnnealing:
                             node.stasiun = nodeR2.stasiun
                             nodeR2.stasiun = temp
 
+                            # print("W")
+                            # print(temp)
+                            # print(node.stasiun)
+                            # print(nodeR2.stasiun)
                             if(self.trySwap(node) and self.trySwap(nodeR2)):
+                                # print("Z")
+                                # print(node.stasiun)
+                                # print(nodeR2.stasiun)
+                                # print()
+                                # print("I")
+                                # print(node.id)
+                                # print(nodeR2.id)
+
+                                # print("X")
+                                
+                                # for inKey in self.stas.keys():
+                                #     print(inKey)
+                                #     for masing in self.stas[inKey]:
+                                #         print(masing.id, end = " ")
+                                #     print()
 
                                 self.command.append({
                                     "job" : 1,
@@ -276,7 +313,11 @@ class simulatedAnnealing:
                                 return True
                             else:
                                 nodeR2.stasiun = node.stasiun
-                                node.stasiun = temp                        
+                                node.stasiun = temp  
+                                self.getByStasiun()      
+                                # print("Q")
+                                # print(nodeR2.stasiun)
+                                # print(node.stasiun)                
         return False
 
     #Main job untuk loop two
@@ -350,21 +391,12 @@ class simulatedAnnealing:
                         break
                 
                 stas = node.stasiun
-                current = 1
-
-                while(current < stas):
-                    task = self.stas[current]
-
-                    for check in task:
-                        if(node.id in check.precedence):
-                            can = False
-                            break
-                    
-                    if(not can):
-                        break
-
-                    current += 1
                 
+                for checkNode in self.allNode:
+                    if(checkNode.isPrecedence(node.id) and checkNode.stasiun < stasiun):
+                        can = False
+                        break
+            
 
                 if(can):
                     before = node.stasiun

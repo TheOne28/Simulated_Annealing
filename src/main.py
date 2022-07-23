@@ -14,6 +14,7 @@ def main():
     
     start = time()
     best = sa.objectiveFunction()
+    bestSA = deepcopy(sa) 
     toCompare = deepcopy(best)
     indBest = 0
     iterasi = 1
@@ -37,6 +38,7 @@ def main():
                 
                 if(current < best):
                     indBest = iterasi
+                    bestSa = deepcopy(sa)
                     best = deepcopy(current)
                     
                 toCompare = deepcopy(current)
@@ -61,7 +63,7 @@ def main():
     
     end = time()
 
-    writeFileCSV(sa, fileCSV)
+    writeFileCSV(bestSA, fileCSV)
     writeCommand(allCommand, fileCSV)
     writeFileObj(allObjective, fileCSV)
     print("Waktu yang dibutuhkan", end - start)
