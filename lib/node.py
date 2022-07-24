@@ -91,6 +91,7 @@ class Node:
         return val
 
     def printNode(self):
+        # print(self.model)
         print("id: {}".format(self.id))
         print("Stasiun: {}".format(self.stasiun))
         print("Resource: {}".format(self.resource))
@@ -106,3 +107,13 @@ class Node:
         # for precend in self.precedence:
         #     print(precend.id)
         print("\n")
+    
+    def __lt__(self, other):
+        if(self.stasiun == other.stasiun):
+            for key in self.model.keys():
+                if(self.model[key][1] > other.model[key][1]):
+                    return True
+                elif(self.model[key][1] < other.model[key][1]):
+                    return False
+            return True
+        return self.stasiun < other.stasiun

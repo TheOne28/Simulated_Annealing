@@ -15,6 +15,7 @@ def main():
     sa = simulatedAnnealing(graph, dataInput, Parameter)
     
     start = time()
+    sa.printAll()
     best = sa.objectiveFunction()
     bestSA = deepcopy(sa) 
     toCompare = deepcopy(best)
@@ -26,7 +27,6 @@ def main():
 
     m = 0
     T = Parameter['T0']
-    sa.printAll()
     
     while(m < Parameter['M']):
         n = 0

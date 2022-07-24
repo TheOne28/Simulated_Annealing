@@ -75,9 +75,10 @@ def writeFileCSV(sa: simulatedAnnealing, suffix: str):
 
             writer.writerow(header)
 
-            graph = sa.graph
+            listNode = sa.graph.graph
+            listNode.sort()
 
-            for node in graph.graph:
+            for node in listNode:
                 this = node.toList() 
 
                 writer.writerows(this)

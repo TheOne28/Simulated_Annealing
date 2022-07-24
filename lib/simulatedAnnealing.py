@@ -1,5 +1,3 @@
-from operator import rshift
-from os import stat
 from random import random, choice
 
 from lib.graph import Graph
@@ -75,14 +73,6 @@ class simulatedAnnealing:
 
         allParent = self.getAllParent(listNode)
         
-        # print()
-        # print("S")
-        # print(station)
-
-        # for each in allParent:
-        #     print(each.id)
-
-
         if(len(allParent) == 0):
             raise Exception("Terdapat kesalahan pada graf untuk stasiun {}, tidak ada parent Node".format(station))
 
@@ -120,6 +110,8 @@ class simulatedAnnealing:
             done.append(parent.getId())
             parent.setWaktuSisa(sisa)
 
+        # print("d1")
+        # print(done)
         for parent in allParent:
             allConnect = [parent]
                 
@@ -169,6 +161,9 @@ class simulatedAnnealing:
                     done.append(each.getId())
                     each.setWaktuSisa(sisa)
                     allConnect.append(each)
+        
+        # print("d2")
+        # print(done)
         return True
 
 
@@ -180,6 +175,8 @@ class simulatedAnnealing:
         stations = self.data['stations']
 
         self.getByStasiun()
+
+    
         for station in stations:
             self.sisaEachStation(station, self.stas[station])
             
@@ -598,7 +595,6 @@ class simulatedAnnealing:
                 b2 += self.data['saving'][id][0]
             elif(resource == 3):
                 b3 += self.data['saving'][id][1]
-        print(done)
         return alpha, ro, b2, b3
 
     def findTau(self) -> int:
@@ -623,10 +619,10 @@ class simulatedAnnealing:
         self.allCT = {}
         alpha, ro, b2, b3 = self.countRes()
 
-        print("alpha ", alpha)
-        print("ro ", ro)
-        print("b2 ", b2)
-        print("b3 ", b3)
+        # print("alpha ", alpha)
+        # print("ro ", ro)
+        # print("b2 ", b2)
+        # print("b3 ", b3)
 
         ci = self.data['ci']
         co = self.data['co']

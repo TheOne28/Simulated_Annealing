@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(Path(__file__).parent).parent))
 from data.input.dataex import dataSource as d1
 from data.input.data1 import dataSource as d2
 from data.input.data2 import dataSource as d3
+from data.input.data3 import dataSource as d4
 
 fileCSV = "solution2"
 dataInput = d3
