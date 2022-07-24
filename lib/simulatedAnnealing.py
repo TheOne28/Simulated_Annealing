@@ -211,6 +211,9 @@ class simulatedAnnealing:
                         node.model[each][0] = self.data['timetaken'][combine][node.resource - 1]
             return False
 
+    def updateAllStas(self):
+        for node in self.allNode:
+            node.updateStasBefore()
 
     # Main job untuk loop one
     def tukarTugas(self) -> bool:
@@ -303,18 +306,18 @@ class simulatedAnnealing:
 
                                 # print("X")
                                 
-                                # for inKey in self.stas.keys():
-                                #     print(inKey)
-                                #     for masing in self.stas[inKey]:
-                                #         print(masing.id, end = " ")
-                                #     print()
+                                for inKey in self.stas.keys():
+                                    print(inKey)
+                                    for masing in self.stas[inKey]:
+                                        print(masing.id, end = " ")
+                                    print()
 
                                 self.command.append({
                                     "job" : 1,
                                     "node1" : node.id,
                                     "node2": nodeR2.id
                                 })
-
+                                self.updateAllStas()
                                 return True
                             else:
                                 nodeR2.stasiun = node.stasiun
@@ -420,10 +423,11 @@ class simulatedAnnealing:
                             "node" : node.id,
                             "stasiun" : stasiun,
                         })
-                        node.updateStasBefore()
+                        self.updateAllStas()
                         return True
                     else:
                         node.stasiun = before
+                        self.getByStasiun()
 
         return False
 

@@ -1,9 +1,9 @@
-TAU: 8.0
-Stasiun 1 Model X: 5.0
-Stasiun 1 Model Y: 5.0
-Stasiun 2 Model X: 5.0
-Stasiun 2 Model Y: 6.0
-Stasiun 3 Model X: 5.0
-Stasiun 3 Model Y: 5.0
-Stasiun 4 Model X: 3.0
-Stasiun 4 Model Y: 8.0
+TAU: 10.0
+Stasiun 1 Model X: 9.0
+Stasiun 1 Model Y: 10.0
+Stasiun 3 Model X: 3.3499999999999996
+Stasiun 3 Model Y: 3.3499999999999996
+Stasiun 2 Model X: 4.0
+Stasiun 2 Model Y: 10.0
+Stasiun 4 Model X: 5.0
+Stasiun 4 Model Y: 5.0

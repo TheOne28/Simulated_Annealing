@@ -1,0 +1,13 @@
+TAU: 7.59
+Stasiun 1 Model X: 3.17
+Stasiun 1 Model Y: 4.34
+Stasiun 1 Model Z: 7.42
+Stasiun 3 Model X: 7.59
+Stasiun 3 Model Y: 6.25
+Stasiun 3 Model Z: 6.0
+Stasiun 2 Model X: 4.0
+Stasiun 2 Model Y: 3.5
+Stasiun 2 Model Z: 2.67
+Stasiun 4 Model X: 2.0
+Stasiun 4 Model Y: 1.0
+Stasiun 4 Model Z: 1.0

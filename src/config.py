@@ -12,8 +12,8 @@ from data.input.data1 import dataSource as d2
 from data.input.data2 import dataSource as d3
 from data.input.data3 import dataSource as d4
 
-fileCSV = "solution2"
-dataInput = d3
+fileCSV = "solution3"
+dataInput = d4
 
 #Parameter loop
 P = [0.5, 0.5, 0.5]
