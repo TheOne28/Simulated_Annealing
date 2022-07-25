@@ -59,7 +59,8 @@ class Node:
 
         if(len(self.precedence) != 0):
             for precend in self.precedence:
-                friendNode.precedence.append(precend)
+                if(precend not in friendNode.precedence):
+                    friendNode.precedence.append(precend)
         
         friendNode.precedence.append(self)
 
@@ -103,9 +104,13 @@ class Node:
             print("Waktu: {}".format(self.model[key][0]))
             print("Waktu Sisa: {}".format(self.model[key][1]))
         
-        # print("Precendence: ")
-        # for precend in self.precedence:
-        #     print(precend.id)
+        print("Precendence: ")
+        for precend in self.precedence:
+            print(precend.id, end = " ")
+        print()
+        print("Stas Before: ")
+        for stas in self.stasBefore:
+            print(stas, end = " ")
         print("\n")
     
     def __lt__(self, other):

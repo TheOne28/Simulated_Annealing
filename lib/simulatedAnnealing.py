@@ -180,7 +180,11 @@ class simulatedAnnealing:
         for station in stations:
             self.sisaEachStation(station, self.stas[station])
             
-    
+    def updateResource(self, node: Node):
+        for each in self.data['model']:
+            combine = (node.id, each)
+            node.model[each][0] = self.data['timetaken'][combine][node.resource - 1]
+
     def trySwap(self, node) -> bool:
         resourceBefore = node.resource
         allResource = self.data['resources']
@@ -197,18 +201,14 @@ class simulatedAnnealing:
                 if(resource != resourceBefore):
                     node.resource = resource
 
-                    for each in self.data['model']:
-                        combine = (node.id, each)
-                        node.model[each][0] = self.data['timetaken'][combine][node.resource - 1]
+                    self.updateResource(node)
                     
                     if(self.sisaEachStation(node.stasiun, self.stas[node.stasiun])):
                         return True
             
             node.resource = resourceBefore
             
-            for each in self.data['model']:
-                        combine = (node.id, each)
-                        node.model[each][0] = self.data['timetaken'][combine][node.resource - 1]
+            self.updateResource(node)
             return False
 
     def updateAllStas(self):
@@ -290,6 +290,8 @@ class simulatedAnnealing:
                             temp = node.stasiun
                             node.stasiun = nodeR2.stasiun
                             nodeR2.stasiun = temp
+                            res1before = node.resource
+                            res2before = nodeR2.resource
 
                             # print("W")
                             # print(temp)
@@ -306,17 +308,20 @@ class simulatedAnnealing:
 
                                 # print("X")
                                 
-                                for inKey in self.stas.keys():
-                                    print(inKey)
-                                    for masing in self.stas[inKey]:
-                                        print(masing.id, end = " ")
-                                    print()
+                                # for inKey in self.stas.keys():
+                                #     print(inKey)
+                                #     for masing in self.stas[inKey]:
+                                #         print(masing.id, end = " ")
+                                #     print()
 
                                 self.command.append({
                                     "job" : 1,
                                     "node1" : node.id,
-                                    "node2": nodeR2.id
+                                    "node2": nodeR2.id,
+                                    "resource1" : res1before,
+                                    "resource2" : res2before
                                 })
+
                                 self.updateAllStas()
                                 return True
                             else:
@@ -344,16 +349,12 @@ class simulatedAnnealing:
             before = node4.resource
             node4.resource = s1
             
-            for each in self.data['model']:
-                combine = (node4.id, each)
-                node4.model[each][0] = self.data['timetaken'][combine][node4.resource - 1]
+            self.updateResource(node4)
 
             if(not self.sisaEachStation(node4.stasiun, self.stas[node4.stasiun])):
                 node4.resource = before
 
-                for each in self.data['model']:
-                    combine = (node4.id, each)
-                    node4.model[each][0] = self.data['timetaken'][combine][node4.resource - 1]
+                self.updateResource(node4)
                 return False
             
             self.command.append({
@@ -406,7 +407,6 @@ class simulatedAnnealing:
                         can = False
                         break
                 
-                stas = node.stasiun
                 
                 for checkNode in self.allNode:
                     if(checkNode.isPrecedence(node.id) and checkNode.stasiun < stasiun):
@@ -417,12 +417,16 @@ class simulatedAnnealing:
                 if(can):
                     before = node.stasiun
                     node.stasiun = stasiun
+                    resbefore = node.resource
                     if(self.trySwap(node)):
                         self.command.append({
                             "job" : 3,
                             "node" : node.id,
                             "stasiun" : stasiun,
+                            "resource" : resbefore
                         })
+
+
                         self.updateAllStas()
                         return True
                     else:
@@ -647,6 +651,16 @@ class simulatedAnnealing:
         node2.stasiun = temp
 
         self.getByStasiun()
+        self.updateAllStas()
+
+        if(node1.resource != self.command[0]['resource1']):
+            node1.resource = self.command[0]['resource1']
+            self.updateResource(node1)
+        
+        if(node2.resource != self.command[0]['resource2']):
+            node2.resource = self.command[0]['resource2']
+            self.updateResource(node2)
+        
 
         self.sisaEachStation(node1.stasiun, self.stas[node1.stasiun])
         self.sisaEachStation(node2.stasiun, self.stas[node2.stasiun])
@@ -654,6 +668,7 @@ class simulatedAnnealing:
     def revertTwo(self, node: Node, before: str):
         node.resource = before
 
+        self.updateResource(node)
         self.sisaEachStation(node.stasiun, self.stas[node.stasiun])
 
     def revertThree(self, node: Node, stasiun: int):
@@ -661,10 +676,16 @@ class simulatedAnnealing:
             self.data['stations'].append(stasiun)
         
         self.removedStasiun.pop(len(self.removedStasiun) - 1)
+        
         before = node.stasiun
         node.stasiun = stasiun
 
+        if(self.command[2]["resource"] != node.resource):
+            node.resource = self.command[2]["resource"]
+            self.updateResource(node)
+
         self.getByStasiun()
+        self.updateAllStas()
 
         self.sisaEachStation(stasiun, self.stas[stasiun])
         self.sisaEachStation(before, self.stas[before])
@@ -677,15 +698,15 @@ class simulatedAnnealing:
 
         if(loopone['job'] != -1):
             if(loopone["node1"] != -1):
-                self.revertOne()
+                self.revertOne(self.graph.findNode(loopone["node1"]), self.graph.findNode(loopone["node2"]))
 
         if(looptwo['job'] != -1):
             if(looptwo["node"] != -1):
-                self.revertTwo()        
+                self.revertTwo(self.graph.findNode(looptwo["node"]), looptwo['before'])        
         
         if(loopthree['job'] != -1):
             if(loopthree["node"] != -1):
-                self.revertThree()
+                self.revertThree(self.graph.findNode(loopthree["node"]), loopthree['stasiun'])
 
     def printAll(self):
 
