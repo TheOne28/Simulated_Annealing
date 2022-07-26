@@ -68,23 +68,40 @@ class simulatedAnnealing:
     def sisaEachStation(self, station: int, listNode: list):
         ct = self.data['ct']
         mapping = {}
-        done = []
         sisa = {}
+
+        # print("W")
+        # print(station)
+        # for node in listNode:
+        #     print(node.id, end = " ")
+        # print()
 
         allParent = self.getAllParent(listNode)
         
+        # print("Q")
+        # print(station)
+        # for parent in allParent:
+        #     print(parent.id, end = " ")
+        # print()
+
+        sortedAllParent = sorted(allParent, key=lambda node: node.index)
+
         if(len(allParent) == 0):
             raise Exception("Terdapat kesalahan pada graf untuk stasiun {}, tidak ada parent Node".format(station))
 
-        for parent in allParent:
+        for parent in sortedAllParent:
             resource = parent.resource
             allModel = parent.model
     
             save = True
 
+            # print("parent")
+            # print(parent.id)
             if(resource == 1 or resource == 2):
                 for model in allModel.keys():
                     minimum = self.findMinimum(ct, resource, model, mapping)
+                    # print("m")
+                    # print(minimum)
 
                     if(minimum < allModel[model][0]):
                         save = False
@@ -96,6 +113,9 @@ class simulatedAnnealing:
             else:
                 for model in allModel.keys():
                     minimum = self.findMinimum(ct, resource, model, mapping)
+                    # print("m")
+                    # print(minimum)
+
                     mapping["1{}".format(model)] = minimum - allModel[model][0]
                     mapping["2{}".format(model)] = minimum - allModel[model][0]
                     
@@ -107,63 +127,45 @@ class simulatedAnnealing:
             if(not save):
                 return False
 
-            done.append(parent.getId())
             parent.setWaktuSisa(sisa)
 
-        # print("d1")
-        # print(done)
-        for parent in allParent:
-            allConnect = [parent]
-                
-            while(True):
-                if(len(allConnect) == 0):
-                    break
-                    
-                before = allConnect[0]
-                connection = before.getConnection()
-                allConnect.pop(0)
+        children = [node for node in listNode if node not in allParent]
 
-                for each in connection:
-                    if(each.getStasiun() != station or each.getId() in done):
-                        continue
-                    
-                    save = True
+        sortedChildren = sorted(children, key=lambda node: node.index)
 
-                    resource = each.getResource()
-                    allModel = each.getModel()
+        for child in sortedChildren:
+            resource = child.resource
+            allModel = child.model
 
-                    if(resource == 1 or resource == 2):
-                        for model in allModel.keys():
-                            checkbef = before.getWaktuSisa(model)
-                            minimum = self.findMinimum(checkbef, resource, model, mapping)      
+            save = True
 
-                            if(minimum < allModel[model][0]):
-                                save = False
-                            else:
-                                mapping["{}{}".format(resource, model)] = minimum - allModel[model][0]
-                                sisa[model] = mapping["{}{}".format(resource, model)]
+            if(resource == 1 or resource == 2):
+                for model in allModel.keys():
+                    before = child.minimumBeforeWaktuSisa(model)
+                    minimum = self.findMinimum(before, resource, model, mapping)
+
+                    if(minimum < allModel[model][0]):
+                        save = False
                     else:
-                        for model in allModel.keys():
-                            checkbef = before.getWaktuSisa(model)
+                        mapping["{}{}".format(resource, model)] = minimum - allModel[model][0]
+                        sisa[model] = mapping["{}{}".format(resource, model)]
+            else:
+                for model in allModel.keys():
+                    before = child.minimumBeforeWaktuSisa(model)
+                    minimum = self.findMinimum(before, resource, model, mapping)
 
-                            minimum = self.findMinimum(checkbef, resource, model, mapping)
-
-                            if(minimum < allModel[model][0]):
-                                save = False
-                            else:
-                                mapping["1{}".format(model)] = minimum - allModel[model][0]
-                                mapping["2{}".format(model)] =  mapping["1{}".format(model)]
-                                sisa[model] = mapping["1{}".format(model)]
-                    
-                    if(not save):
-                        return False
+                    if(minimum < allModel[model][0]):
+                        save = False
+                    else:
+                        mapping["1{}".format(model)] = minimum - allModel[model][0]
+                        mapping["2{}".format(model)] =  mapping["1{}".format(model)]
+                        sisa[model] = mapping["1{}".format(model)]
+            
+            if(not save):
+                return False
     
-                    done.append(each.getId())
-                    each.setWaktuSisa(sisa)
-                    allConnect.append(each)
-        
-        # print("d2")
-        # print(done)
+            child.setWaktuSisa(sisa)
+
         return True
 
 
@@ -209,6 +211,8 @@ class simulatedAnnealing:
             node.resource = resourceBefore
             
             self.updateResource(node)
+            self.sisaEachStation(node.stasiun, self.stas[node.stasiun])
+
             return False
 
     def updateAllStas(self):
@@ -711,4 +715,6 @@ class simulatedAnnealing:
     def printAll(self):
 
         for node in self.allNode:
+            if(node.id == 7):
+                continue
             node.printNode() 

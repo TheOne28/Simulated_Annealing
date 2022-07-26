@@ -19,6 +19,7 @@ def readFile(filename: str, config: dict) -> dict | None:
         print("Error saat membaca file CSV")
 
     line = 0
+    index = 0
     dictNode : dict[int, Node] = {} 
 
     for data in csvData:
@@ -60,8 +61,9 @@ def readFile(filename: str, config: dict) -> dict | None:
                 dictNode[id].addModel(model,  [waktu])
             else:
                 newModel = {model: [waktu]}
-                newNode = Node(id, station, newModel, resource)
+                newNode = Node(id, station, newModel, resource, index)
                 dictNode[id] = newNode
+                index += 1
     
     return dictNode
 

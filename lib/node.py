@@ -1,13 +1,15 @@
 
 
 class Node:
-    def __init__(self, id:int, stasiun: int, model: dict, resource: int ) -> None:
+    def __init__(self, id:int, stasiun: int, model: dict, resource: int, index: int) -> None:
         self.id = id
         self.connection = []
+        self.before = []
         self.precedence = []
         self.stasBefore = []
         self.stasiun = stasiun
         self.model = model
+        self.index = index
         self.resource = resource
 
     def setWaktuSisa(self, waktuSisa: map):
@@ -44,6 +46,20 @@ class Node:
     def addModel(self, key: str, value: list):
         self.model[key] = value
 
+    def minimumBeforeWaktuSisa(self, model) -> float:
+        first = False
+        curr = None
+
+        for node in self.before:
+            if(node.stasiun == self.stasiun):
+                if(not first):
+                    curr = node.getWaktuSisa(model)
+                    first = True
+                else:
+                    curr = min(curr, node.getWaktuSisa(model))
+
+        return curr
+
     def updateStasBefore(self):
         newStas = []
         
@@ -56,6 +72,11 @@ class Node:
 
     def addConnection(self, friendNode):
         self.connection.append(friendNode)
+        
+        if(len(friendNode.before) == 0):
+             friendNode.before = [self]
+        else:
+            friendNode.before.append(self)
 
         if(len(self.precedence) != 0):
             for precend in self.precedence:
