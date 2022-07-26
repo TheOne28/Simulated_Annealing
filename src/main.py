@@ -15,10 +15,9 @@ def main():
     sa = simulatedAnnealing(graph, dataInput, Parameter)
     
     start = time()
-    sa.printAll()
+    # sa.printAll()
     best = sa.objectiveFunction()
     bestSA = deepcopy(sa) 
-    # bestSA.printAll()
     toCompare = deepcopy(best)
     indBest = 0
     iterasi = 1
@@ -65,6 +64,7 @@ def main():
     
     end = time()
 
+    bestSA.printAll()
     writeFileCSV(bestSA, fileCSV)
     writeCommand(allCommand, fileCSV)
     writeFileObj(allObjective, fileCSV)
